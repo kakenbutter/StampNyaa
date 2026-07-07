@@ -1,41 +1,42 @@
-const axios = require('axios');
-const { JSDOM } = require('jsdom');
-const fs = require('fs');
-const { finished } = require('node:stream/promises');
-const path = require('path');
-const Jimp = require('jimp');
+import axios from 'axios';
+import { JSDOM } from 'jsdom';
+import * as fs from 'fs';
+import { finished } from 'node:stream/promises';
+import * as path from 'path';
+import { Jimp } from 'jimp';
 
 const cdnURL = 'https://stickershop.line-scdn.net';
-const mainImageURL = (packID) =>
+const mainImageURL = (packID: string) =>
   `${cdnURL}/stickershop/v1/product/${packID}/LINEStorePC/main.png?v=1`;
-const stickerURL = (stickerId) =>
+const stickerURL = (stickerId: string) =>
   `${cdnURL}/stickershop/v1/sticker/${stickerId}/IOS/sticker@2x.png`;
-const fallbackStickerURL = (stickerId) =>
+const fallbackStickerURL = (stickerId: string) =>
   `${cdnURL}/stickershop/v1/sticker/${stickerId}/android/sticker.png`;
-const animatedStickerURL = (stickerId) =>
+const animatedStickerURL = (stickerId: string) =>
   `${cdnURL}/stickershop/v1/sticker/${stickerId}/iPhone/sticker_animation@2x.png`;
-const fallbackAnimatedStickerURL = (stickerId) =>
+const fallbackAnimatedStickerURL = (stickerId: string) =>
   `${cdnURL}/stickershop/v1/sticker/${stickerId}/android/sticker_animation.png`;
-const popupStickerURL = (stickerId) =>
+const popupStickerURL = (stickerId: string) =>
   `${cdnURL}/stickershop/v1/sticker/${stickerId}/IOS/sticker_popup.png`;
-const fallbackPopupStickerURL = (stickerId) =>
+const fallbackPopupStickerURL = (stickerId: string) =>
   `${cdnURL}/stickershop/v1/sticker/${stickerId}/android/sticker_popup.png`;
 
 const packIDRegex = /stickershop\/product\/(\d+)/;
 
-/**
- * Downloads a sticker pack from the LINE store.
- * @param {string} storeURL
- * @param {MessagePortMain} port
- * @param {string} directory
- * @returns {Promise<string>} The title of the sticker pack.
- */
-async function downloadPack(storeURL, port, directory) {
-  // Check URL first for valid pack
+interface StickerJSON {
+  id: string;
+  type: string;
+}
+
+async function downloadPack(
+  storeURL: string,
+  port: MessagePort,
+  directory: string
+): Promise<{ title: string; author: string; authorURL: string } | undefined> {
   let response;
   try {
     response = await axios.get(storeURL);
-  } catch (error) {
+  } catch (_error) {
     port.postMessage({
       type: 'download-sticker-pack',
       error: 'Error getting store page',
@@ -45,7 +46,7 @@ async function downloadPack(storeURL, port, directory) {
   const dom = new JSDOM(response.data);
   const document = dom.window.document;
 
-  const packID = storeURL.match(packIDRegex)[1];
+  const packID = storeURL.match(packIDRegex)![1];
   const packDir = path.join(directory, '/', packID);
 
   if (!fs.existsSync(directory)) {
@@ -57,22 +58,22 @@ async function downloadPack(storeURL, port, directory) {
 
   const mainImage = path.join(packDir, 'main.png');
   if (!fs.existsSync(mainImage)) {
-    const response = await axios({
+    const imgResponse = await axios({
       method: 'get',
       url: mainImageURL(packID),
       responseType: 'stream',
     });
-    response.data.pipe(fs.createWriteStream(mainImage));
+    imgResponse.data.pipe(fs.createWriteStream(mainImage));
   }
 
   const title = document.title.split(' - ')[0];
   console.log(`Got store page for ${title}...`);
 
-  const authorAnchor = document.querySelector('a[data-test="sticker-author"]');
-  const author = authorAnchor.textContent;
+  const authorAnchor = document.querySelector('a[data-test="sticker-author"]') as HTMLAnchorElement;
+  const author = authorAnchor.textContent!;
   const authorURL = new URL(storeURL).origin + authorAnchor.href;
 
-  const stickerLiList = [...document.querySelectorAll('.mdCMN09Li')];
+  const stickerLiList = [...document.querySelectorAll('.mdCMN09Li')] as HTMLElement[];
 
   console.log(`Downloading ${stickerLiList.length} stickers from ${storeURL}...`);
   port.postMessage({
@@ -83,13 +84,12 @@ async function downloadPack(storeURL, port, directory) {
     progress: 0,
   });
 
-  const stickerList = [];
+  const stickerList: StickerJSON[] = [];
   for (const stickerLi of stickerLiList) {
-    const stickerJSON = JSON.parse(stickerLi.dataset.preview);
+    const stickerJSON = JSON.parse(stickerLi.dataset.preview!) as StickerJSON;
     stickerList.push(stickerJSON);
   }
 
-  // Each sticker has a static URL, some have either an animation or popup url which is an animated png.
   for (let i = 0; i < stickerList.length; i++) {
     const sticker = stickerList[i];
     const staticUrl = stickerURL(sticker.id);
@@ -103,10 +103,10 @@ async function downloadPack(storeURL, port, directory) {
       let downloadURL =
         sticker.type === 'animation' ? animatedStickerURL(sticker.id) : popupStickerURL(sticker.id);
       await downloadImage(downloadURL, packDir, `${sticker.id}_${sticker.type}.png`);
-      const isValid = await checkImageValidity(
+      const animValid = await checkImageValidity(
         path.join(packDir, `${sticker.id}_${sticker.type}.png`)
       );
-      if (!isValid) {
+      if (!animValid) {
         downloadURL =
           sticker.type === 'animation'
             ? fallbackAnimatedStickerURL(sticker.id)
@@ -125,7 +125,6 @@ async function downloadPack(storeURL, port, directory) {
     });
   }
 
-  // save title to info.json
   const info = {
     title,
     storeURL,
@@ -150,40 +149,30 @@ async function downloadPack(storeURL, port, directory) {
   };
 }
 
-/**
- * Downloads an image from a url to a given directory after checking if it's already downloaded.
- * @param {string} url
- * @param {string} dir
- * @param {string} filename
- * @returns {Promise<boolean>} Whether the image was downloaded.
- */
-async function downloadImage(url, dir, filename) {
+async function downloadImage(url: string, dir: string, filename: string): Promise<boolean> {
   console.log(`Downloading ${url} to ${filename}...`);
-  return new Promise(async (resolve, reject) => {
+  return new Promise((resolve, _reject) => {
     const filePath = path.join(dir, filename);
     const writer = fs.createWriteStream(filePath);
     axios.get(url, { responseType: 'stream' }).then((response) => {
       response.data.pipe(writer);
     });
-    await finished(writer);
-    console.log(`Wrote ${filename}`);
-    resolve(true);
+    finished(writer).then(() => {
+      console.log(`Wrote ${filename}`);
+      resolve(true);
+    });
   });
 }
 
-/**
- * Checks if an image is valid.
- * @param {string} imagePath
- */
-async function checkImageValidity(imagePath) {
+async function checkImageValidity(imagePath: string): Promise<boolean> {
   try {
     await Jimp.read(imagePath);
     console.log('Image is valid.');
     return true;
-  } catch (error) {
+  } catch (_error) {
     console.log('Image is invalid.');
     return false;
   }
 }
 
-module.exports = downloadPack;
+export default downloadPack;

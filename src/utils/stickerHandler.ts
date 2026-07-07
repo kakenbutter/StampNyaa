@@ -1,38 +1,31 @@
-const { app, clipboard } = require('electron');
-const fs = require('fs');
-const path = require('path');
-const { keyboard, Key } = require('@nut-tree/nut-js');
-const Jimp = require('jimp');
+import { app, clipboard } from 'electron';
+import * as fs from 'fs';
+import * as path from 'path';
+import { keyboard, Key } from '@nut-tree-fork/nut-js';
+import { Jimp } from 'jimp';
 
-let clipboardEx;
+let clipboardEx: typeof import('electron-clipboard-ex') | undefined;
 
-// if not linux
 if (process.platform !== 'linux') {
   clipboardEx = require('electron-clipboard-ex');
 }
 
-/**
- * Reads the sticker packs directory and returns a map of sticker pack objects.
- * @returns {Array} Array of sticker pack objects
- */
-function getAllStickerPacks(stickerPacksDir) {
-  const stickerPacksMap = {};
-  // check if sticker packs directory exists, if not create it
+function getAllStickerPacks(stickerPacksDir: string): Record<string, StickerPackData> {
+  const stickerPacksMap: Record<string, any> = {};
+
   if (!fs.existsSync(stickerPacksDir)) {
     fs.mkdirSync(stickerPacksDir);
   }
   const stickerPacks = fs.readdirSync(stickerPacksDir);
   for (const pack of stickerPacks) {
-    // check if pack is a directory
     if (!fs.lstatSync(path.join(stickerPacksDir, pack)).isDirectory()) {
       continue;
     }
-    // check if info.json exists, if not create it
     if (!fs.existsSync(path.join(stickerPacksDir, pack, 'info.json'))) {
       fs.writeFileSync(path.join(stickerPacksDir, pack, 'info.json'), '{}');
     }
     const stickerPackData = JSON.parse(
-      fs.readFileSync(path.join(stickerPacksDir, pack, 'info.json'))
+      fs.readFileSync(path.join(stickerPacksDir, pack, 'info.json'), 'utf8')
     );
 
     if (!stickerPackData.title) {
@@ -42,22 +35,18 @@ function getAllStickerPacks(stickerPacksDir) {
       stickerPackData.author = 'Unknown';
     }
 
-    // pack ID is the folder name
     stickerPackData.id = pack;
 
-    // read pack icon
     const mainIcon = path.join(stickerPacksDir, pack, 'main.png');
     stickerPackData.mainIcon = mainIcon;
 
-    // read the rest of the stickers
     const stickers = fs
       .readdirSync(path.join(stickerPacksDir, pack))
       .filter((file) => file !== 'info.json' && file !== 'main.png');
 
     stickerPackData.stickers = {};
 
-    // handle animated/popup stickers (dumbly assume a static version exists)
-    const specialStickers = [];
+    const specialStickers: string[] = [];
     for (const sticker of stickers) {
       if (sticker.endsWith('_animation.png') || sticker.endsWith('_popup.png')) {
         specialStickers.push(sticker);
@@ -75,9 +64,9 @@ function getAllStickerPacks(stickerPacksDir) {
       const type = path.parse(sticker).name.split('_')[1];
       stickerPackData.stickers[stickerID].type = type;
     }
-    // convert stickers object to array
+
     stickerPackData.stickers = Object.entries(stickerPackData.stickers).map(
-      ([stickerID, sticker]) => {
+      ([stickerID, sticker]: [string, any]) => {
         return { stickerID, ...sticker };
       }
     );
@@ -86,67 +75,59 @@ function getAllStickerPacks(stickerPacksDir) {
   return stickerPacksMap;
 }
 
-/**
- * Pastes a sticker from the given directory path to the clipboard and sends it to the previous window.
- * @param {*} stickerPath
- * @param {*} window
- * @param {*} closeWindowAfterSend
- */
 async function pasteStickerFromPath(
-  stickerPath,
-  window,
-  { closeWindowAfterSend = true, resizeWidth, title = '', author = '', stickerPackID = '' } = {}
-) {
-  // check valid file path
+  stickerPath: string,
+  window: Electron.BrowserWindow,
+  {
+    closeWindowAfterSend = true,
+    resizeWidth,
+    author = '',
+    stickerPackID = '',
+  }: {
+    closeWindowAfterSend?: boolean;
+    resizeWidth?: number;
+    author?: string;
+    stickerPackID?: string;
+  } = {}
+): Promise<void> {
   if (!fs.existsSync(stickerPath)) {
     throw new Error('Invalid file path');
   }
 
   const tempStickerFolder = path.join(app.getPath('appData'), 'temp');
 
-  // create temp folder if it doesn't exist
   if (!fs.existsSync(tempStickerFolder)) {
     fs.mkdirSync(tempStickerFolder);
   }
 
-  // strip illegal characters from author and title and ID
   author = stripIllegalCharacters(author);
-  title = stripIllegalCharacters(title);
   stickerPackID = stripIllegalCharacters(stickerPackID);
   const tempStickerPath = path.join(tempStickerFolder, `StampNyaa_${stickerPackID}_${author}.png`);
 
-  // if resizeImageWidth is set, resize the image to the given width
   if (resizeWidth) {
     try {
       const image = await Jimp.read(stickerPath);
-      // check if width is bigger than resizeImageWidth
-      if (image.getWidth() > resizeWidth) {
-        await image.resize(resizeWidth, Jimp.AUTO);
+      if (image.bitmap.width > resizeWidth) {
+        await image.resize({ w: resizeWidth });
       }
-      // save in temp path
-      await image.writeAsync(tempStickerPath);
-    } catch (error) {
+      await (image as any).write(tempStickerPath);
+    } catch (_error) {
       console.log('Unsupported image format, could not resize');
       fs.copyFileSync(stickerPath, tempStickerPath);
     }
   } else {
-    // copy sticker to temp path
     fs.copyFileSync(stickerPath, tempStickerPath);
   }
 
-  // write sticker file to clipboard if not linux
   if (process.platform !== 'linux') {
-    clipboardEx.writeFilePaths([tempStickerPath]);
+    clipboardEx!.writeFilePaths([tempStickerPath]);
   } else {
-    // linux
-    clipboard.writeImage(tempStickerPath);
+    clipboard.writeImage(tempStickerPath as unknown as Electron.NativeImage);
   }
   console.log(`Wrote sticker to clipboard from path ${tempStickerPath}`);
 
   if (closeWindowAfterSend) {
-    // windows / linux
     window.minimize();
-    // mac
     if (process.platform === 'darwin') {
       app.hide();
     }
@@ -155,7 +136,6 @@ async function pasteStickerFromPath(
     window.setFocusable(false);
   }
 
-  // paste sticker image (these are async functions but awaiting is slower)
   const ctrlKey = process.platform === 'darwin' ? Key.LeftCmd : Key.LeftControl;
   keyboard.pressKey(ctrlKey);
   keyboard.pressKey(Key.V);
@@ -168,16 +148,8 @@ async function pasteStickerFromPath(
   }
 }
 
-/**
- * Removes illegal filepath characters from a string.
- * @param {string} string
- * @returns {string} String with illegal characters removed
- */
-function stripIllegalCharacters(string) {
+function stripIllegalCharacters(string: string): string {
   return string.replace(/[/\\?%*:|"<>]/g, '');
 }
 
-module.exports = {
-  pasteStickerFromPath,
-  getAllStickerPacks,
-};
+export { pasteStickerFromPath, getAllStickerPacks };

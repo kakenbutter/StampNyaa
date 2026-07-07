@@ -1,60 +1,45 @@
-const {
-  app,
-  BrowserWindow,
-  globalShortcut,
-  ipcMain,
-  Menu,
-  Tray,
-  shell,
-  screen,
-} = require('electron');
-const path = require('path');
-const stickerHandler = require('./utils/stickerHandler');
-const Store = require('electron-store');
-const downloadPack = require('./utils/lineDownloader');
-const checkUpdate = require('./utils/checkUpdate');
-const sqlHandler = require('./utils/sqlHandler');
+import { app, BrowserWindow, globalShortcut, ipcMain, Menu, Tray, shell, screen } from 'electron';
+import * as path from 'path';
+import * as stickerHandler from './utils/stickerHandler';
+import Store from 'electron-store';
+import downloadPack from './utils/lineDownloader';
+import checkUpdate from './utils/checkUpdate';
+import sqlHandler from './utils/sqlHandler';
+import squirrelStartup from 'electron-squirrel-startup';
 
-// Auto update, but not on first run
 const args = process.argv.slice(1);
 if (!args.includes('--squirrel-firstrun')) {
-  // Only update on Windows
   if (process.platform === 'win32') {
     console.log('Checking for updates...');
-    require('update-electron-app')();
+    const updateElectronApp = require('update-electron-app');
+    updateElectronApp();
   }
 }
 
-/**
- * @type {Electron.BrowserWindow}
- */
-let window;
+let window: Electron.BrowserWindow;
 
-// Initialize config
 const store = new Store({
   defaults: {
     stickersPath: path.join(app.getPath('pictures'), 'Stickers'),
   },
 });
 const config = new Store({
-  cwd: store.get('stickersPath'),
+  cwd: store.get('stickersPath') as string,
   defaults: {
-    stickerPacksOrder: [],
+    stickerPacksOrder: [] as string[],
     theme: 'blue',
     hotkey: 'CommandOrControl+Shift+A',
     runOnStartup: true,
     resizeWidth: 160,
   },
 });
-sqlHandler.init(path.join(store.get('stickersPath'), 'stickers.db'));
+sqlHandler.init(path.join(store.get('stickersPath') as string, 'stickers.db'));
 
-// Handle creating/removing shortcuts on Windows when installing/uninstalling.
-if (require('electron-squirrel-startup')) {
+if (squirrelStartup) {
   app.quit();
 }
 
 const createWindow = () => {
-  // Create the browser window.
   window = new BrowserWindow({
     icon: path.join(__dirname, '../assets/icon.ico'),
     width: 930,
@@ -69,25 +54,27 @@ const createWindow = () => {
     skipTaskbar: true,
   });
 
-  // and load the index.html of the app.
-  window.loadFile(path.join(__dirname, 'index.html'));
+  window.loadFile(path.join(__dirname, '../src/index.html'));
 
-  // open links in default browser
-  window.webContents.setWindowOpenHandler(({ url }) => {
+  window.webContents.setWindowOpenHandler(({ url }: { url: string }) => {
     shell.openExternal(url);
-    return { action: 'deny' };
+    return { action: 'deny' as const };
   });
 
-  // Open the DevTools if in development mode.
   if (process.env.NODE_ENV === 'development') {
     window.webContents.openDevTools();
     window.setSize(1600, 900);
   }
+
+  app.on('browser-window-blur', () => {
+    setTimeout(() => {
+      if (!app.isActive()) window!.hide();
+    }, 50);
+  });
 };
 
-// This method will be called when Electron has finished
-// initialization and is ready to create browser windows.
-// Some APIs can only be used after this event occurs.
+app.setActivationPolicy('accessory');
+
 app.on('ready', async () => {
   createWindow();
 
@@ -97,6 +84,12 @@ app.on('ready', async () => {
 
   const appIcon = new Tray(path.join(__dirname, '../assets/icon-16x16.png'));
   const contextMenu = Menu.buildFromTemplate([
+    {
+      label: 'Show',
+      click: function () {
+        createWindow();
+      },
+    },
     {
       label: 'Quit',
       click: function () {
@@ -110,13 +103,10 @@ app.on('ready', async () => {
     toggleWindow();
   });
 
-  registerHotkey(config.get('hotkey'));
-  setRunOnStartup(config.get('runOnStartup'));
+  registerHotkey(config.get('hotkey') as string);
+  setRunOnStartup(config.get('runOnStartup') as boolean);
 });
 
-// Quit when all windows are closed, except on macOS. There, it's common
-// for applications and their menu bar to stay active until the user quits
-// explicitly with Cmd + Q.
 app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') {
     app.quit();
@@ -124,23 +114,15 @@ app.on('window-all-closed', () => {
 });
 
 app.on('activate', () => {
-  // Show window on clicking dock icon
   window.show();
 });
 
-// In this file you can include the rest of your app's specific main process
-// code. You can also put them in separate files and import them here.
-
-// Migrate stickerPacksOrder to config in stickers folder
-if (store.has('stickerPacksOrder')) {
-  config.set('stickerPacksOrder', store.get('stickerPacksOrder'));
-  store.delete('stickerPacksOrder');
+if ((store as any).has('stickerPacksOrder')) {
+  config.set('stickerPacksOrder', (store as any).get('stickerPacksOrder'));
+  (store as any).delete('stickerPacksOrder');
 }
 
-/**
- * Toggles the window's visibility
- */
-function toggleWindow() {
+function toggleWindow(): void {
   if (window.isFocused()) {
     window.hide();
   } else {
@@ -162,38 +144,32 @@ function toggleWindow() {
   }
 }
 
-// Register hotkey
-function registerHotkey(hotkey) {
+function registerHotkey(hotkey: string): void {
   try {
     globalShortcut.register(hotkey, () => {
       toggleWindow();
     });
-  } catch (error) {
+  } catch (_error) {
     config.reset('hotkey');
   }
 }
-
-// IPC handlers
 
 ipcMain.on('close-window', () => {
   window.hide();
 });
 
 ipcMain.handle('ready', () => {
-  const stickerPacksMap = stickerHandler.getAllStickerPacks(store.get('stickersPath'));
-  let stickerPacksOrder = [...new Set(config.get('stickerPacksOrder'))].filter(
+  const stickerPacksMap = stickerHandler.getAllStickerPacks(store.get('stickersPath') as string);
+  let stickerPacksOrder = [...new Set(config.get('stickerPacksOrder') as string[])].filter(
     (pack) => pack in stickerPacksMap
   );
-  // check if there are any new sticker packs not in StickerPacksOrder
   const newStickerPacks = Object.keys(stickerPacksMap).filter(
     (pack) => !stickerPacksOrder.includes(pack)
   );
   if (newStickerPacks.length > 0) {
-    // add new sticker packs to the end of the order
     stickerPacksOrder = stickerPacksOrder.concat(newStickerPacks);
   }
   config.set('stickerPacksOrder', stickerPacksOrder);
-  // get stickers and settings and stuff and send to client
   return {
     stickerPacksMap: stickerPacksMap,
     stickerPacksOrder: config.get('stickerPacksOrder'),
@@ -201,18 +177,18 @@ ipcMain.handle('ready', () => {
   };
 });
 
-ipcMain.on('send-sticker', (event, stickerPath, settings) => {
+ipcMain.on('send-sticker', (event: Electron.IpcMainEvent, stickerPath: string, settings: any) => {
   settings.resizeWidth = config.get('resizeWidth');
   stickerHandler.pasteStickerFromPath(stickerPath, window, settings);
   sqlHandler.useSticker({ PackID: settings.stickerPackID, StickerID: settings.stickerID });
 });
 
-ipcMain.on('download-sticker-pack', (event, url) => {
-  const port = event.ports[0];
-  downloadPack(url, port, store.get('stickersPath'));
+ipcMain.on('download-sticker-pack', (event: Electron.IpcMainEvent, url: string) => {
+  const port = event.ports[0] as unknown as MessagePort;
+  downloadPack(url, port, store.get('stickersPath') as string);
 });
 
-ipcMain.on('set-sticker-pack-order', (event, stickerPackOrder) => {
+ipcMain.on('set-sticker-pack-order', (event: Electron.IpcMainEvent, stickerPackOrder: string[]) => {
   config.set('stickerPacksOrder', stickerPackOrder);
 });
 
@@ -220,7 +196,7 @@ ipcMain.handle('get-theme', () => {
   return config.get('theme');
 });
 
-ipcMain.on('set-theme', (event, theme) => {
+ipcMain.on('set-theme', (event: Electron.IpcMainEvent, theme: string) => {
   config.set('theme', theme);
 });
 
@@ -228,7 +204,7 @@ ipcMain.handle('get-hotkey', () => {
   return config.get('hotkey');
 });
 
-ipcMain.on('set-hotkey', (event, hotkey) => {
+ipcMain.on('set-hotkey', (event: Electron.IpcMainEvent, hotkey: string) => {
   config.set('hotkey', hotkey);
 });
 
@@ -237,11 +213,10 @@ ipcMain.on('disable-hotkey', () => {
 });
 
 ipcMain.on('enable-hotkey', () => {
-  registerHotkey(config.get('hotkey'));
+  registerHotkey(config.get('hotkey') as string);
 });
 
-function setRunOnStartup(runOnStartup) {
-  // https://www.electronjs.org/docs/latest/api/app#appsetloginitemsettingssettings-macos-windows
+function setRunOnStartup(runOnStartup: boolean): void {
   const appFolder = path.dirname(process.execPath);
   const updateExe = path.resolve(appFolder, '..', 'Update.exe');
   const exeName = path.basename(process.execPath);
@@ -258,33 +233,35 @@ ipcMain.handle('get-run-on-startup', () => {
   return config.get('runOnStartup');
 });
 
-ipcMain.on('set-run-on-startup', (event, runOnStartup) => {
+ipcMain.on('set-run-on-startup', (event: Electron.IpcMainEvent, runOnStartup: boolean) => {
   setRunOnStartup(runOnStartup);
   config.set('runOnStartup', runOnStartup);
 });
 
-ipcMain.handle('get-resize-width', (event) => {
+ipcMain.handle('get-resize-width', () => {
   return config.get('resizeWidth');
 });
 
-ipcMain.on('set-resize-width', (event, width) => {
+ipcMain.on('set-resize-width', (event: Electron.IpcMainEvent, width: number) => {
   config.set('resizeWidth', width);
 });
 
 ipcMain.handle('get-updates', async () => {
-  return await checkUpdate(config);
+  return await checkUpdate(config as any);
 });
 
 ipcMain.handle('get-version', () => {
   return app.getVersion();
 });
 
-ipcMain.on('set-favorites', (event, favorites) => {
-  sqlHandler.setFavorites(favorites);
+ipcMain.on('set-favorites', (event: Electron.IpcMainEvent, favorites: unknown) => {
+  sqlHandler.setFavorites(favorites as { PackID: string; StickerID: string }[]);
 });
+
 ipcMain.handle('get-favorites', () => {
   return sqlHandler.getFavorites();
 });
+
 ipcMain.handle('get-most-used', () => {
   return sqlHandler.getMostUsed(15);
 });
