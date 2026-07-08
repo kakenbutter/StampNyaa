@@ -13,7 +13,9 @@ module.exports = {
       x64ArchFiles: '**/electron-clipboard-ex/**',
     },
   },
-  rebuildConfig: {},
+  rebuildConfig: {
+    ignoreModules: ['electron-clipboard-ex'],
+  },
   makers: [
     {
       name: '@electron-forge/maker-squirrel',
