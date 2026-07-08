@@ -4,10 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c6c872f5-8e01-40b3-8ea8-f3c08b3f6797" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.github/workflows/build.yml" beforeDir="false" afterPath="$PROJECT_DIR$/.github/workflows/build.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.github/workflows/release.yml" beforeDir="false" afterPath="$PROJECT_DIR$/.github/workflows/release.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.husky/pre-commit" beforeDir="false" afterPath="$PROJECT_DIR$/.husky/pre-commit" afterDir="false" />
+    <list default="true" id="c6c872f5-8e01-40b3-8ea8-f3c08b3f6797" name="Changes" comment="adjust action workflows for macOS">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/img/ChooseATheme.gif" beforeDir="false" afterPath="$PROJECT_DIR$/img/ChooseATheme.gif" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/img/DiscordSendSticker.gif" beforeDir="false" afterPath="$PROJECT_DIR$/img/DiscordSendSticker.gif" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/img/ManageAndSort.gif" beforeDir="false" afterPath="$PROJECT_DIR$/img/ManageAndSort.gif" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/readme.md" beforeDir="false" afterPath="$PROJECT_DIR$/readme.md" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -38,23 +40,23 @@
   </component>
   <component name="NextEditCompletionFeaturesState">
     <decayedCancelled>
-      <entry key="MS100" value="1.0" />
-      <entry key="MS500" value="1.000383629158529" />
-      <entry key="S2" value="1.1399516640612437" />
-      <entry key="S5" value="1.4580178210439645" />
-      <entry key="S10" value="1.8210843244657222" />
-      <entry key="S30" value="4.399880646217319" />
-      <entry key="S60" value="7.183643582185626" />
-      <entry key="M2" value="9.557561445824792" />
-      <entry key="M5" value="11.467368133184724" />
-      <entry key="M10" value="12.205038775208463" />
-      <entry key="M15" value="12.463442944310255" />
-      <entry key="M30" value="12.7283739318075" />
-      <entry key="H1" value="12.863339394065918" />
-      <entry key="H2" value="12.931456453108495" />
-      <entry key="H4" value="12.965674745748164" />
-      <entry key="D1" value="12.994271681942884" />
-      <entry key="W1" value="12.999181486398545" />
+      <entry key="MS100" value="1.000016205664928" />
+      <entry key="MS500" value="1.282643578915477" />
+      <entry key="S2" value="3.1821985757641573" />
+      <entry key="S5" value="4.965548853758406" />
+      <entry key="S10" value="6.816001106041271" />
+      <entry key="S30" value="15.195454414418014" />
+      <entry key="S60" value="24.06033356090626" />
+      <entry key="M2" value="33.6303578517921" />
+      <entry key="M5" value="44.99023719612306" />
+      <entry key="M10" value="52.38810154399055" />
+      <entry key="M15" value="56.38820312380943" />
+      <entry key="M30" value="62.13336658264731" />
+      <entry key="H1" value="66.05290951904503" />
+      <entry key="H2" value="68.37800754249923" />
+      <entry key="H4" value="69.64903487950887" />
+      <entry key="D1" value="70.76902670484179" />
+      <entry key="W1" value="70.96685792950343" />
     </decayedCancelled>
     <decayedSelected>
       <entry key="MS100" value="0.0" />
@@ -76,23 +78,23 @@
       <entry key="W1" value="0.0" />
     </decayedSelected>
     <decayedShown>
-      <entry key="MS100" value="0.9794202975869268" />
-      <entry key="MS500" value="0.9962312608484485" />
-      <entry key="S2" value="1.1387185839660747" />
-      <entry key="S5" value="1.4569658910507715" />
-      <entry key="S10" value="1.8111958676867561" />
-      <entry key="S30" value="4.349340443910664" />
-      <entry key="S60" value="7.131943390501312" />
-      <entry key="M2" value="9.520424869725453" />
-      <entry key="M5" value="11.448881067414435" />
-      <entry key="M10" value="12.195093726837033" />
-      <entry key="M15" value="12.456649087275038" />
-      <entry key="M30" value="12.724893022300122" />
-      <entry key="H1" value="12.861577547899811" />
-      <entry key="H2" value="12.930570131912136" />
-      <entry key="H4" value="12.965230229292342" />
-      <entry key="D1" value="12.994197407013953" />
-      <entry key="W1" value="12.999170871062393" />
+      <entry key="MS100" value="8.194403951507154E-4" />
+      <entry key="MS500" value="0.5184097942409517" />
+      <entry key="S2" value="2.872309665545923" />
+      <entry key="S5" value="4.825623257669655" />
+      <entry key="S10" value="6.742389317566276" />
+      <entry key="S30" value="15.168646103857695" />
+      <entry key="S60" value="24.045143387102854" />
+      <entry key="M2" value="33.61943511485188" />
+      <entry key="M5" value="44.98190122006965" />
+      <entry key="M10" value="52.38132358699219" />
+      <entry key="M15" value="56.382376181313944" />
+      <entry key="M30" value="62.12935237603882" />
+      <entry key="H1" value="66.0504897250163" />
+      <entry key="H2" value="68.37667015312906" />
+      <entry key="H4" value="69.64833067978226" />
+      <entry key="D1" value="70.76890406666374" />
+      <entry key="W1" value="70.96684027599402" />
     </decayedShown>
   </component>
   <component name="ProjectColorInfo"><![CDATA[{
@@ -141,8 +143,17 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1783467161856</updated>
-      <workItem from="1783467163171" duration="1222000" />
+      <workItem from="1783467163171" duration="1910000" />
     </task>
+    <task id="LOCAL-00001" summary="adjust action workflows for macOS">
+      <option name="closed" value="true" />
+      <created>1783468756834</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1783468756834</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -158,5 +169,9 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="adjust action workflows for macOS" />
+    <option name="LAST_COMMIT_MESSAGE" value="adjust action workflows for macOS" />
   </component>
 </project>
