@@ -127,20 +127,16 @@ async function pasteStickerFromPath(
   console.log(`Wrote sticker to clipboard from path ${tempStickerPath}`);
 
   if (closeWindowAfterSend) {
-    window.minimize();
     if (process.platform === 'darwin') {
       app.hide();
-    }
+      await new Promise((resolve) => setTimeout(resolve, 100));
+    } else window.minimize();
   } else {
     window.setAlwaysOnTop(true);
     window.setFocusable(false);
   }
 
-  const ctrlKey = process.platform === 'darwin' ? Key.LeftCmd : Key.LeftControl;
-  keyboard.pressKey(ctrlKey);
-  keyboard.pressKey(Key.V);
-  keyboard.releaseKey(Key.V);
-  await keyboard.releaseKey(ctrlKey);
+  await keyboard.type(process.platform === 'darwin' ? Key.LeftSuper : Key.LeftControl, Key.V);
 
   if (!closeWindowAfterSend) {
     window.setFocusable(true);

@@ -24,7 +24,7 @@ jobs:
       - name: install dependencies
         run: yarn install
       - name: build
-        run: yarn make --arch="universal"
+        run: yarn make
 
   build_on_win:
     runs-on: windows-latest

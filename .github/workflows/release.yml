@@ -24,7 +24,7 @@ jobs:
           ACCESS_KEY: ${{ secrets.GITHUB_TOKEN }}
         run: yarn run publish
 
-  publish_on_mac:
+  publish_on_mac_arm64:
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v2
@@ -36,7 +36,21 @@ jobs:
       - name: publish
         env:
           ACCESS_KEY: ${{ secrets.GITHUB_TOKEN }}
-        run: yarn run publish --arch="universal"
+        run: yarn run publish --arch="arm64"
+
+  publish_on_mac_x64:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@master
+        with:
+          node-version: 22.23.1
+      - name: install dependencies
+        run: yarn install
+      - name: publish
+        env:
+          ACCESS_KEY: ${{ secrets.GITHUB_TOKEN }}
+        run: yarn run publish --arch="x64"
 
   publish_on_win:
     runs-on: windows-latest
