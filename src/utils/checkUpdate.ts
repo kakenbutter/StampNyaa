@@ -24,7 +24,7 @@ async function checkUpdate(config: ElectronStore<Record<string, unknown>>): Prom
   }
 
   config.set('lastCheckUpdateTime', Date.now().valueOf());
-  const url = 'https://api.github.com/repos/MarvNC/StampNyaa/releases/latest';
+  const url = 'https://api.github.com/repos/kakenbutter/StampNyaa/releases/latest';
   const { data } = await axios.get(url, {
     headers: {
       'User-Agent': 'StampNyaa Update Check',

@@ -1,3 +1,4 @@
+<h2 align="center">NOTE: this is not the original repo; the following README is a copy of the original</h2>
 <p align="center">
   <img src="./assets/banner_transparent.png" alt="StampNyaa Banner" max-height="300" />
 </p>

@@ -4,10 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c6c872f5-8e01-40b3-8ea8-f3c08b3f6797" name="Changes" comment="add build step in scripts">
+    <list default="true" id="c6c872f5-8e01-40b3-8ea8-f3c08b3f6797" name="Changes" comment="1.6.1">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/forge.config.js" beforeDir="false" afterPath="$PROJECT_DIR$/forge.config.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/readme.md" beforeDir="false" afterPath="$PROJECT_DIR$/readme.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/utils/checkUpdate.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/checkUpdate.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -15,7 +17,7 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="EmbeddingIndexingInfo">
-    <option name="cachedIndexableFilesCount" value="68" />
+    <option name="cachedIndexableFilesCount" value="820" />
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -38,61 +40,61 @@
   </component>
   <component name="NextEditCompletionFeaturesState">
     <decayedCancelled>
-      <entry key="MS100" value="1.633711862573504" />
-      <entry key="MS500" value="3.9525032914243785" />
-      <entry key="S2" value="10.558951573798685" />
-      <entry key="S5" value="17.03948590899084" />
-      <entry key="S10" value="21.25765189787419" />
-      <entry key="S30" value="28.94401975747874" />
-      <entry key="S60" value="35.193789637245786" />
-      <entry key="M2" value="40.98731829702689" />
-      <entry key="M5" value="56.46113514128246" />
-      <entry key="M10" value="83.69876503343426" />
-      <entry key="M15" value="103.82267528847756" />
-      <entry key="M30" value="136.73618597670705" />
-      <entry key="H1" value="161.18707086401642" />
-      <entry key="H2" value="176.34790195450282" />
-      <entry key="H4" value="184.83238086322515" />
-      <entry key="D1" value="192.4217757359906" />
-      <entry key="W1" value="193.77326858964324" />
+      <entry key="MS100" value="1.013596418927169" />
+      <entry key="MS500" value="1.7223052895011246" />
+      <entry key="S2" value="2.5489079300334243" />
+      <entry key="S5" value="2.8264218594700323" />
+      <entry key="S10" value="3.2143592930944376" />
+      <entry key="S30" value="6.3218323577862945" />
+      <entry key="S60" value="13.527407878631323" />
+      <entry key="M2" value="27.047398541008707" />
+      <entry key="M5" value="52.807624690359795" />
+      <entry key="M10" value="85.07316879547972" />
+      <entry key="M15" value="111.47126616982305" />
+      <entry key="M30" value="161.75502494925718" />
+      <entry key="H1" value="204.6562232331763" />
+      <entry key="H2" value="233.463936121584" />
+      <entry key="H4" value="250.28361564811033" />
+      <entry key="D1" value="265.7385062927378" />
+      <entry key="W1" value="268.5304474123013" />
     </decayedCancelled>
     <decayedSelected>
-      <entry key="MS100" value="3.1508682875924784E-226" />
-      <entry key="MS500" value="8.089370778495899E-46" />
-      <entry key="S2" value="7.777136807977405E-12" />
-      <entry key="S5" value="6.368086283179798E-5" />
-      <entry key="S10" value="0.013580949691836375" />
-      <entry key="S30" value="0.4942507152900827" />
-      <entry key="S60" value="1.217050157226718" />
-      <entry key="M2" value="1.9105490632895363" />
-      <entry key="M5" value="2.5045078898874493" />
-      <entry key="M10" value="2.741066401453305" />
-      <entry key="M15" value="2.8247907591082524" />
-      <entry key="M30" value="2.9110758176747193" />
-      <entry key="H1" value="2.955203023851162" />
-      <entry key="H2" value="2.9775171580830477" />
-      <entry key="H4" value="2.9887374109829117" />
-      <entry key="D1" value="2.9981199550418682" />
-      <entry key="W1" value="2.999731349894007" />
+      <entry key="MS100" value="0.0" />
+      <entry key="MS500" value="0.0" />
+      <entry key="S2" value="6.479172374721056E-164" />
+      <entry key="S5" value="9.381858043665928E-66" />
+      <entry key="S10" value="5.212788440397155E-33" />
+      <entry key="S30" value="3.591925272336966E-11" />
+      <entry key="S60" value="1.0375247606185094E-5" />
+      <entry key="M2" value="0.005578317015037643" />
+      <entry key="M5" value="0.24258302244549396" />
+      <entry key="M10" value="0.853077633729836" />
+      <entry key="M15" value="1.2972757006624556" />
+      <entry key="M30" value="1.9727702789027504" />
+      <entry key="H1" value="2.4327575125431147" />
+      <entry key="H2" value="2.7015314187995467" />
+      <entry key="H4" value="2.846856882425756" />
+      <entry key="D1" value="2.9739156808403715" />
+      <entry key="W1" value="2.996259707847847" />
     </decayedSelected>
     <decayedShown>
-      <entry key="MS100" value="1.5724861659560598" />
-      <entry key="MS500" value="3.9233628129311198" />
-      <entry key="S2" value="10.530361138754666" />
-      <entry key="S5" value="17.017471116623092" />
-      <entry key="S10" value="21.25483949537588" />
-      <entry key="S30" value="29.41717703457396" />
-      <entry key="S60" value="36.39072228931942" />
-      <entry key="M2" value="42.88344428012055" />
-      <entry key="M5" value="58.957582274754834" />
-      <entry key="M10" value="86.43373953204693" />
-      <entry key="M15" value="106.64197132168798" />
-      <entry key="M30" value="139.64291291218044" />
-      <entry key="H1" value="164.13933585156707" />
-      <entry key="H2" value="179.32367944499643" />
-      <entry key="H4" value="187.8201673458996" />
-      <entry key="D1" value="195.41972459028625" />
-      <entry key="W1" value="196.77297516847818" />
+      <entry key="MS100" value="0.9859474061240443" />
+      <entry key="MS500" value="1.7133307478900395" />
+      <entry key="S2" value="2.5456517247967345" />
+      <entry key="S5" value="2.8247954684241607" />
+      <entry key="S10" value="3.210826941409899" />
+      <entry key="S30" value="6.311194968612957" />
+      <entry key="S60" value="13.515150860962395" />
+      <entry key="M2" value="27.0416814773869" />
+      <entry key="M5" value="53.042230834239355" />
+      <entry key="M10" value="85.92004804526779" />
+      <entry key="M15" value="112.76296545119767" />
+      <entry key="M30" value="163.72322092240003" />
+      <entry key="H1" value="207.08572166271605" />
+      <entry key="H2" value="236.16346194842737" />
+      <entry key="H4" value="253.1293513918818" />
+      <entry key="D1" value="268.71221611431776" />
+      <entry key="W1" value="271.5266772088238" />
     </decayedShown>
   </component>
   <component name="ProjectColorInfo">{
@@ -148,7 +150,8 @@
       <option name="presentableId" value="Default" />
       <updated>1783467161856</updated>
       <workItem from="1783467163171" duration="3029000" />
-      <workItem from="1783470413948" duration="509000" />
+      <workItem from="1783470413948" duration="577000" />
+      <workItem from="1783471159162" duration="457000" />
     </task>
     <task id="LOCAL-00001" summary="adjust action workflows for macOS">
       <option name="closed" value="true" />
@@ -182,7 +185,15 @@
       <option name="project" value="LOCAL" />
       <updated>1783470302288</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="resolve macOS build errors">
+      <option name="closed" value="true" />
+      <created>1783470997440</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1783470997440</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -204,6 +215,8 @@
     <MESSAGE value="restore readme.md" />
     <MESSAGE value="bump node version in actions" />
     <MESSAGE value="add build step in scripts" />
-    <option name="LAST_COMMIT_MESSAGE" value="add build step in scripts" />
+    <MESSAGE value="resolve macOS build errors" />
+    <MESSAGE value="1.6.1" />
+    <option name="LAST_COMMIT_MESSAGE" value="1.6.1" />
   </component>
 </project>
