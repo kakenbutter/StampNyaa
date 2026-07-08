@@ -4,12 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c6c872f5-8e01-40b3-8ea8-f3c08b3f6797" name="Changes" comment="adjust action workflows for macOS">
+    <list default="true" id="c6c872f5-8e01-40b3-8ea8-f3c08b3f6797" name="Changes" comment="bump node version in actions">
+      <change afterPath="$PROJECT_DIR$/.idea/codeStyles/codeStyleConfig.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/img/ChooseATheme.gif" beforeDir="false" afterPath="$PROJECT_DIR$/img/ChooseATheme.gif" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/img/DiscordSendSticker.gif" beforeDir="false" afterPath="$PROJECT_DIR$/img/DiscordSendSticker.gif" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/img/ManageAndSort.gif" beforeDir="false" afterPath="$PROJECT_DIR$/img/ManageAndSort.gif" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/readme.md" beforeDir="false" afterPath="$PROJECT_DIR$/readme.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/index.css" beforeDir="false" afterPath="$PROJECT_DIR$/dist/index.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/yarn.lock" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -40,61 +41,61 @@
   </component>
   <component name="NextEditCompletionFeaturesState">
     <decayedCancelled>
-      <entry key="MS100" value="1.000016205664928" />
-      <entry key="MS500" value="1.282643578915477" />
-      <entry key="S2" value="3.1821985757641573" />
-      <entry key="S5" value="4.965548853758406" />
-      <entry key="S10" value="6.816001106041271" />
-      <entry key="S30" value="15.195454414418014" />
-      <entry key="S60" value="24.06033356090626" />
-      <entry key="M2" value="33.6303578517921" />
-      <entry key="M5" value="44.99023719612306" />
-      <entry key="M10" value="52.38810154399055" />
-      <entry key="M15" value="56.38820312380943" />
-      <entry key="M30" value="62.13336658264731" />
-      <entry key="H1" value="66.05290951904503" />
-      <entry key="H2" value="68.37800754249923" />
-      <entry key="H4" value="69.64903487950887" />
-      <entry key="D1" value="70.76902670484179" />
-      <entry key="W1" value="70.96685792950343" />
+      <entry key="MS100" value="1.000001767326473" />
+      <entry key="MS500" value="1.0708306892168638" />
+      <entry key="S2" value="2.176522469619905" />
+      <entry key="S5" value="5.970341652053191" />
+      <entry key="S10" value="10.332707259364275" />
+      <entry key="S30" value="16.225742459059497" />
+      <entry key="S60" value="18.415643574780237" />
+      <entry key="M2" value="20.45447675736545" />
+      <entry key="M5" value="34.00948239405107" />
+      <entry key="M10" value="60.801624714615" />
+      <entry key="M15" value="80.45597606330695" />
+      <entry key="M30" value="112.28377053836111" />
+      <entry key="H1" value="135.73126431252138" />
+      <entry key="H2" value="150.20364335311785" />
+      <entry key="H4" value="158.28362947918487" />
+      <entry key="D1" value="165.50046657210692" />
+      <entry key="W1" value="166.7845987022885" />
     </decayedCancelled>
     <decayedSelected>
-      <entry key="MS100" value="0.0" />
-      <entry key="MS500" value="0.0" />
-      <entry key="S2" value="0.0" />
-      <entry key="S5" value="0.0" />
-      <entry key="S10" value="0.0" />
-      <entry key="S30" value="0.0" />
-      <entry key="S60" value="0.0" />
-      <entry key="M2" value="0.0" />
-      <entry key="M5" value="0.0" />
-      <entry key="M10" value="0.0" />
-      <entry key="M15" value="0.0" />
-      <entry key="M30" value="0.0" />
-      <entry key="H1" value="0.0" />
-      <entry key="H2" value="0.0" />
-      <entry key="H4" value="0.0" />
-      <entry key="D1" value="0.0" />
-      <entry key="W1" value="0.0" />
+      <entry key="MS100" value="1.1602829379389876E-49" />
+      <entry key="MS500" value="1.663954602203073E-10" />
+      <entry key="S2" value="0.005237528769672588" />
+      <entry key="S5" value="0.21643705316664427" />
+      <entry key="S10" value="0.7917562075405413" />
+      <entry key="S30" value="1.9164658522434277" />
+      <entry key="S60" value="2.3965437752866317" />
+      <entry key="M2" value="2.6809989238182514" />
+      <entry key="M5" value="2.8679909862330115" />
+      <entry key="M10" value="2.933237612478084" />
+      <entry key="M15" value="2.955321566841424" />
+      <entry key="M30" value="2.9775752524125227" />
+      <entry key="H1" value="2.9887661598643724" />
+      <entry key="H2" value="2.9943777028615703" />
+      <entry key="H4" value="2.9971875058502064" />
+      <entry key="D1" value="2.9995310639773" />
+      <entry key="W1" value="2.9999330045586245" />
     </decayedSelected>
     <decayedShown>
-      <entry key="MS100" value="8.194403951507154E-4" />
-      <entry key="MS500" value="0.5184097942409517" />
-      <entry key="S2" value="2.872309665545923" />
-      <entry key="S5" value="4.825623257669655" />
-      <entry key="S10" value="6.742389317566276" />
-      <entry key="S30" value="15.168646103857695" />
-      <entry key="S60" value="24.045143387102854" />
-      <entry key="M2" value="33.61943511485188" />
-      <entry key="M5" value="44.98190122006965" />
-      <entry key="M10" value="52.38132358699219" />
-      <entry key="M15" value="56.382376181313944" />
-      <entry key="M30" value="62.12935237603882" />
-      <entry key="H1" value="66.0504897250163" />
-      <entry key="H2" value="68.37667015312906" />
-      <entry key="H4" value="69.64833067978226" />
-      <entry key="D1" value="70.76890406666374" />
-      <entry key="W1" value="70.96684027599402" />
+      <entry key="MS100" value="0.0012277019712278055" />
+      <entry key="MS500" value="0.30499022213395943" />
+      <entry key="S2" value="1.8351382812460666" />
+      <entry key="S5" value="6.003747447049054" />
+      <entry key="S10" value="11.001594229968061" />
+      <entry key="S30" value="18.08263708268978" />
+      <entry key="S60" value="20.77849066417071" />
+      <entry key="M2" value="23.117396203845733" />
+      <entry key="M5" value="36.8689580855963" />
+      <entry key="M10" value="63.72867919013643" />
+      <entry key="M15" value="83.40576825766814" />
+      <entry key="M30" value="115.2570049193255" />
+      <entry key="H1" value="138.71711218553742" />
+      <entry key="H2" value="153.19629795727246" />
+      <entry key="H4" value="161.2798765435565" />
+      <entry key="D1" value="168.49982864591615" />
+      <entry key="W1" value="169.7845072470214" />
     </decayedShown>
   </component>
   <component name="ProjectColorInfo"><![CDATA[{
@@ -124,11 +125,17 @@
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "yarn",
+    "prettierjs.PrettierConfiguration.Package": "/Users/kake/Documents/projects/StampNyaa/node_modules/prettier",
     "to.speed.mode.migration.done": "true",
     "ts.external.directory.path": "/Users/kake/Documents/projects/StampNyaa/node_modules/typescript/lib",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/dist" />
+    </key>
+  </component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
@@ -143,7 +150,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1783467161856</updated>
-      <workItem from="1783467163171" duration="1910000" />
+      <workItem from="1783467163171" duration="2971000" />
     </task>
     <task id="LOCAL-00001" summary="adjust action workflows for macOS">
       <option name="closed" value="true" />
@@ -153,7 +160,23 @@
       <option name="project" value="LOCAL" />
       <updated>1783468756834</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="restore readme.md">
+      <option name="closed" value="true" />
+      <created>1783469180624</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1783469180624</updated>
+    </task>
+    <task id="LOCAL-00003" summary="bump node version in actions">
+      <option name="closed" value="true" />
+      <created>1783469328424</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1783469328424</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -172,6 +195,8 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="adjust action workflows for macOS" />
-    <option name="LAST_COMMIT_MESSAGE" value="adjust action workflows for macOS" />
+    <MESSAGE value="restore readme.md" />
+    <MESSAGE value="bump node version in actions" />
+    <option name="LAST_COMMIT_MESSAGE" value="bump node version in actions" />
   </component>
 </project>

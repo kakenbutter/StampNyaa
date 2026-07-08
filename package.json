@@ -9,10 +9,11 @@
   },
   "main": "dist/index.js",
   "scripts": {
+    "build": "esbuild src/index.ts --bundle --platform=node --packages=external --outfile=dist/index.js && esbuild src/preload.ts --bundle --platform=node --packages=external --outfile=dist/preload.js && esbuild src/renderer.ts --bundle --platform=browser --format=iife --outfile=dist/renderer/bundle.js && sass src/index.scss dist/index.css --no-source-map",
     "start": "yarn build && electron-forge start",
-    "package": "electron-forge package",
-    "make": "electron-forge make",
-    "publish": "electron-forge publish",
+    "package": "yarn build && electron-forge package",
+    "make": "yarn build && electron-forge make",
+    "publish": "yarn build && electron-forge publish",
     "lint": "eslint .",
     "typecheck": "tsc --noEmit",
     "format": "prettier --write \"src/**/*.ts\"",
@@ -57,6 +58,7 @@
     "husky": "^9.1.7",
     "lint-staged": "^17.0.8",
     "prettier": "^3.9.4",
+    "sass": "^1.101.0",
     "typescript": "^6.0.3",
     "typescript-eslint": "^8.63.0"
   },
