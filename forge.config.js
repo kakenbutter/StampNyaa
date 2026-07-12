@@ -10,17 +10,8 @@ module.exports = {
       LSUIElement: true,
     },
     ignore: (path) => {
-      const match = path.match(/node_modules\/@nut-tree-fork\/libnut-(\S+)/);
-      if (match) {
-        const platform = match[1];
-        const current =
-          process.platform === 'win32'
-            ? 'win32'
-            : process.platform === 'darwin'
-              ? 'macos'
-              : 'linux-x64';
-        return !platform.startsWith(current.replace('darwin', 'macos'));
-      }
+      if (/node_modules\/@nut-tree-fork\/libnut-(?!linux-x64)/.test(path)) return true;
+      if (/\/node_modules\/\.bin\//.test(path)) return true;
       return false;
     },
   },
