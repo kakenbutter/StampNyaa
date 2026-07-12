@@ -1,3 +1,10 @@
+@use './fontawesome/variables' with (
+  $font-path: '../assets/webfonts'
+);
+@use './fontawesome/fontawesome';
+@use './fontawesome/fa' as fa;
+@use './fontawesome/solid' as fa-solid;
+
 /* variables */
 /* shadow size */
 :root {
@@ -108,9 +115,9 @@ body {
       display: flex;
       align-items: center;
 
-      .material-symbols-outlined {
+      .fa-solid {
         color: var(--white-color);
-        font-size: 24px;
+        font-size: 20px;
       }
 
       .menu-button {
@@ -132,7 +139,7 @@ body {
 
       #minimize-button:hover {
         background-color: var(--white-color) !important;
-        .material-symbols-outlined {
+        .fa-solid {
           color: var(--primary-color) !important;
         }
       }
@@ -171,11 +178,9 @@ body {
         margin: 10px;
         gap: 10px 0;
 
-
-        .circle {
+        .button {
           height: 40px;
           width: 40px;
-          border-radius: 50%;
           cursor: pointer;
           overflow: hidden;
           display: flex;
@@ -183,9 +188,9 @@ body {
             transform: scale(var(--scale-power));
           }
 
-          .material-symbols-outlined {
+          .fa-solid {
             color: var(--white-color);
-            font-size: 40px;
+            font-size: 32px;
           }
         }
       }
@@ -196,8 +201,7 @@ body {
         grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
         grid-gap: 10px;
         justify-items: center;
-        margin: 5px;
-        margin-top: 10px;
+        margin: 10px 5px 5px;
         gap: 10px;
 
         .sticker-pack-icon-wrapper {
@@ -207,6 +211,7 @@ body {
           scroll-margin: 100px;
           padding: 0;
           margin: 0;
+          outline: none;
 
           &.active {
             transform: scale(var(--scale-power));
@@ -218,9 +223,9 @@ body {
             max-height: 100%;
           }
 
-          .material-symbols-outlined {
+          .fa-solid {
             color: var(--white-color);
-            font-size: 40px;
+            font-size: 32px;
           }
         }
       }
@@ -235,7 +240,7 @@ body {
         display: grid;
         grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
         grid-gap: 10px;
-        padding: 5px 0px;
+        padding: 5px 0;
 
         &#sticker-pack-container-most-used {
           // dumb hack to make it only one row
@@ -261,8 +266,30 @@ body {
             float: right;
             margin-right: 10px;
             font-weight: 400;
-            font-size: 28px;
+            font-size: 24px;
           }
+          .most-used-clear {
+            float: right;
+            margin-right: 10px;
+            font-weight: 600;
+            font-size: 24px;
+            text-decoration: underline;
+            cursor: pointer;
+            color: var(--gray-color);
+          }
+        }
+
+        .section-empty {
+          width: 100%;
+          height: 135px;
+          grid-column: 1 / -1;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          font-size: 28px;
+          font-weight: 600;
+          color: var(--gray-color);
+          margin-bottom: 15px;
         }
 
         .sticker {
@@ -316,9 +343,15 @@ body {
     &#settings-modal {
       width: max-content;
 
-      .material-symbols-outlined {
-        font-size: 50px;
+      .fa-solid {
+        font-size: 40px;
         color: var(--white-color);
+      }
+
+      .fa-check {
+        font-size: 32px;
+        margin-top: auto;
+        margin-bottom: auto;
       }
 
       .settingsRow {
@@ -455,14 +488,14 @@ body {
           height: 80px;
         }
       }
-      .material-symbols-outlined {
-        font-size: 50px;
+      .fa-solid {
+        font-size: 40px;
         color: var(--white-color);
       }
       h2 {
         color: var(--white-color);
         font-size: 30px;
-        margin: 0px;
+        margin: 0;
         padding-bottom: 10px;
         text-align: center;
       }
@@ -473,6 +506,12 @@ body {
         justify-content: center;
         border-radius: 15px;
         cursor: pointer;
+        padding: 5px;
+
+        .fa-solid {
+          margin-top: auto;
+          margin-bottom: auto;
+        }
       }
     }
 
@@ -519,15 +558,18 @@ body {
       height: 100%;
       border-radius: 15px;
       transition: all 0.2s ease-in-out;
+      padding: 5px;
 
       &.loading {
         background-color: var(--gray-color);
         animation: shake 0.5s ease-in-out infinite;
       }
 
-      .material-symbols-outlined {
+      .fa-solid {
         color: var(--white-color);
-        font-size: 50px;
+        font-size: 40px;
+        margin-top: auto;
+        margin-bottom: auto;
       }
 
       &:hover {
@@ -546,7 +588,7 @@ body {
       // https://www.30secondsofcode.org/css/s/shake-invalid-input/
       @keyframes shake {
         0% {
-          margin-left: 0rem;
+          margin-left: 0;
         }
         25% {
           margin-left: 0.5rem;
@@ -555,7 +597,7 @@ body {
           margin-left: -0.5rem;
         }
         100% {
-          margin-left: 0rem;
+          margin-left: 0;
         }
       }
 
@@ -584,7 +626,7 @@ body {
 
         #download-progress {
           height: 100%;
-          width: 0%;
+          width: 0;
           background-color: var(--green-color);
           transition: all 0.2s ease-in-out;
           display: flex;
@@ -646,18 +688,10 @@ body {
     background-color: var(--red-color);
   }
 
-  .material-symbols-outlined {
-    font-size: 50px;
+  .fa-solid {
+    font-size: 40px;
     color: var(--white-color);
   }
-}
-
-.material-symbols-outlined {
-  font-variation-settings:
-    'FILL' 1,
-    'wght' 600,
-    'GRAD' 0,
-    'opsz' 48;
 }
 
 /* custom scrollbar */

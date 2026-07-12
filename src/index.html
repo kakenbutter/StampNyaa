@@ -7,10 +7,6 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
-    />
-    <link
       href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;500;700;800&display=swap"
       rel="stylesheet"
     />
@@ -23,7 +19,7 @@
         <div class="logo">スタンプにゃあ～ | StampNyaa</div>
         <div id="menu-buttons">
           <div id="close-button" class="menu-button">
-            <span class="close-x material-symbols-outlined"> close </span>
+            <i class="fa-solid fa-xmark fa-canvas-square"></i>
           </div>
         </div>
       </div>
@@ -31,17 +27,17 @@
       <div id="main-content">
         <div id="leftbar">
           <div id="top-buttons">
-            <div id="settings-button" class="circle">
-              <span class="material-symbols-outlined"> settings </span>
+            <div id="settings-button" class="button">
+              <i class="fa-solid fa-gear fa-canvas-square"></i>
             </div>
-            <div id="add-button" class="circle">
-              <span class="material-symbols-outlined"> add </span>
+            <div id="most-used-icon" class="button">
+              <i class="fa-solid fa-clock-rotate-left fa-canvas-square"></i>
             </div>
-            <div id="most-used-icon" class="circle">
-              <span class="material-symbols-outlined"> history </span>
+            <div id="add-button" class="button">
+              <i class="fa-solid fa-plus fa-canvas-square"></i>
             </div>
-            <div id="favorites-icon" class="circle">
-              <span class="material-symbols-outlined"> star </span>
+            <div id="favorites-icon" class="button">
+              <i class="fa-solid fa-star fa-canvas-square"></i>
             </div>
           </div>
           <div id="sticker-pack-list"></div>
@@ -61,7 +57,7 @@
           />
         </div>
         <div id="add-sticker-button" class="box">
-          <span class="material-symbols-outlined"> check </span>
+          <i class="fa-solid fa-check fa-canvas-square"></i>
         </div>
         <div id="add-sticker-download-feedback" style="display: none">
           <h2 id="add-sticker-title"></h2>
@@ -79,7 +75,7 @@
         <!-- Theme select -->
         <div class="settingsRow">
           <div class="icons">
-            <span class="material-symbols-outlined"> palette </span>
+            <i class="fa-solid fa-palette fa-canvas-square"></i>
           </div>
           <div id="theme-select">
             <div data-theme="blue" class="themeSelector"></div>
@@ -91,7 +87,7 @@
         <!-- Set hotkey -->
         <div class="settingsRow">
           <div class="icons">
-            <span class="material-symbols-outlined"> keyboard_alt </span>
+            <i class="fa-solid fa-keyboard fa-canvas-square"></i>
           </div>
           <div id="hotkey-input-container" class="inputbox">
             <input id="hotkey-input" type="text" spellcheck="false" />
@@ -101,20 +97,20 @@
         <!-- Run on startup -->
         <div class="settingsRow">
           <div class="icons">
-            <span class="material-symbols-outlined"> rocket_launch </span>
+            <i class="fa-solid fa-rocket fa-canvas-square"></i>
           </div>
           <div>
             <h2>Run on Startup</h2>
           </div>
           <div id="run-on-startup">
-            <span id="run-on-startup-check" class="material-symbols-outlined"> check </span>
+            <i id="run-on-startup-check" class="fa-solid fa-check fa-canvas-square"></i>
           </div>
         </div>
 
         <!-- Fit to width -->
         <div class="settingsRow">
           <div class="icons">
-            <span class="material-symbols-outlined"> image </span>
+            <i class="fa-solid fa-image fa-canvas-square"></i>
           </div>
           <div>
             <h2>Fit to Width</h2>
@@ -134,7 +130,7 @@
             <h2 id="versionString"></h2>
           </div>
           <div class="icons">
-            <span class="material-symbols-outlined heart"> favorite </span>
+            <i class="fa-solid fa-heart fa-canvas-square"></i>
           </div>
           <div>
             <h2>by MarvNC and kakenbutter</h2>
@@ -150,9 +146,7 @@
     <div id="update-background" class="modal-background" style="display: none">
       <div id="version-modal" class="modal">
         <div class="updateIcons">
-          <span class="material-symbols-outlined"> update </span>
           <img src="../assets/icon.ico" alt="StampNyaa Icon" class="icon" />
-          <span class="material-symbols-outlined"> celebration </span>
         </div>
         <div><h2 id="update-text"></h2></div>
         <a
@@ -161,17 +155,17 @@
           target="_blank"
           href="https://github.com/kakenbutter/StampNyaa/releases"
         >
-          <span class="material-symbols-outlined"> check </span>
+          <i class="fa-solid fa-check fa-canvas-square"></i>
         </a>
       </div>
     </div>
     <div id="add-favorite-feedback" class="feedback-modal">
-      <span class="material-symbols-outlined"> add_photo_alternate </span>
-      <span class="material-symbols-outlined"> add </span>
+      <i class="fa-solid fa-image fa-canvas-square"></i>
+      <i class="fa-solid fa-plus fa-canvas-square"></i>
     </div>
     <div id="remove-favorite-feedback" class="feedback-modal">
-      <span class="material-symbols-outlined"> image </span>
-      <span class="material-symbols-outlined"> delete </span>
+      <i class="fa-solid fa-image fa-canvas-square"></i>
+      <i class="fa-solid fa-trash fa-canvas-square"></i>
     </div>
     <script src="../dist/renderer/bundle.js"></script>
   </body>

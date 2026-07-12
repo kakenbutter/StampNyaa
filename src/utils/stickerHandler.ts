@@ -1,8 +1,8 @@
 import { app, clipboard } from 'electron';
 import * as fs from 'fs';
 import * as path from 'path';
-import { keyboard, Key } from '@nut-tree-fork/nut-js';
-import { Jimp } from 'jimp';
+import { Key, keyboard } from '@nut-tree-fork/nut-js';
+import sharp from 'sharp';
 
 let clipboardEx: typeof import('electron-clipboard-ex') | undefined;
 
@@ -37,8 +37,7 @@ function getAllStickerPacks(stickerPacksDir: string): Record<string, StickerPack
 
     stickerPackData.id = pack;
 
-    const mainIcon = path.join(stickerPacksDir, pack, 'main.png');
-    stickerPackData.mainIcon = mainIcon;
+    stickerPackData.mainIcon = path.join(stickerPacksDir, pack, 'main.png');
 
     const stickers = fs
       .readdirSync(path.join(stickerPacksDir, pack))
@@ -48,7 +47,7 @@ function getAllStickerPacks(stickerPacksDir: string): Record<string, StickerPack
 
     const specialStickers: string[] = [];
     for (const sticker of stickers) {
-      if (sticker.endsWith('_animation.png') || sticker.endsWith('_popup.png')) {
+      if (sticker.endsWith('_animation.gif') || sticker.endsWith('_popup.gif')) {
         specialStickers.push(sticker);
       } else {
         const stickerID = path.parse(sticker).name;
@@ -59,10 +58,10 @@ function getAllStickerPacks(stickerPacksDir: string): Record<string, StickerPack
     }
     for (const sticker of specialStickers) {
       const stickerID = sticker.split('_')[0];
-      const filepath = path.join(stickerPacksDir, pack, sticker);
-      stickerPackData.stickers[stickerID].specialPath = filepath;
-      const type = path.parse(sticker).name.split('_')[1];
-      stickerPackData.stickers[stickerID].type = type;
+
+      stickerPackData.stickers[stickerID].specialPath = path.join(stickerPacksDir, pack, sticker);
+
+      stickerPackData.stickers[stickerID].type = path.parse(sticker).name.split('_')[1];
     }
 
     stickerPackData.stickers = Object.entries(stickerPackData.stickers).map(
@@ -80,7 +79,7 @@ async function pasteStickerFromPath(
   window: Electron.BrowserWindow,
   {
     closeWindowAfterSend = true,
-    resizeWidth,
+    resizeWidth: resize,
     author = '',
     stickerPackID = '',
   }: {
@@ -102,15 +101,38 @@ async function pasteStickerFromPath(
 
   author = stripIllegalCharacters(author);
   stickerPackID = stripIllegalCharacters(stickerPackID);
-  const tempStickerPath = path.join(tempStickerFolder, `StampNyaa_${stickerPackID}_${author}.png`);
+  const tempStickerPath = path.join(
+    tempStickerFolder,
+    stickerPath.endsWith('.gif')
+      ? `StampNyaa_${stickerPackID}_${author}.gif`
+      : `StampNyaa_${stickerPackID}_${author}.png`
+  );
 
-  if (resizeWidth) {
+  const { width, height } = await sharp(stickerPath).metadata();
+
+  if (resize && resize < Math.max(width, height)) {
     try {
-      const image = await Jimp.read(stickerPath);
-      if (image.bitmap.width > resizeWidth) {
-        await image.resize({ w: resizeWidth });
+      if (stickerPath.endsWith('.gif')) {
+        await sharp(stickerPath, { animated: true })
+          .resize({
+            width: resize,
+            height: resize,
+            fit: 'contain',
+            background: { r: 0, g: 0, b: 0, alpha: 0 },
+          })
+          .gif()
+          .toFile(tempStickerPath);
+      } else {
+        await sharp(stickerPath)
+          .resize({
+            width: resize,
+            height: resize,
+            fit: 'contain',
+            background: { r: 0, g: 0, b: 0, alpha: 0 },
+          })
+          .png()
+          .toFile(tempStickerPath);
       }
-      await (image as any).write(tempStickerPath);
     } catch (_error) {
       console.log('Unsupported image format, could not resize');
       fs.copyFileSync(stickerPath, tempStickerPath);

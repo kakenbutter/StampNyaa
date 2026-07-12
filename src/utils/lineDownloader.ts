@@ -1,9 +1,11 @@
-import axios from 'axios';
+import axios, { AxiosResponse } from 'axios';
 import { JSDOM } from 'jsdom';
 import * as fs from 'fs';
 import { finished } from 'node:stream/promises';
 import * as path from 'path';
-import { Jimp } from 'jimp';
+import { sharpFromApng } from 'sharp-apng';
+import sharp, { type Sharp } from 'sharp';
+import { revert } from 'cgbi-to-png';
 
 const cdnURL = 'https://stickershop.line-scdn.net';
 const mainImageURL = (packID: string) =>
@@ -33,7 +35,7 @@ async function downloadPack(
   port: MessagePort,
   directory: string
 ): Promise<{ title: string; author: string; authorURL: string } | undefined> {
-  let response;
+  let response: AxiosResponse<any, any, object>;
   try {
     response = await axios.get(storeURL);
   } catch (_error) {
@@ -94,25 +96,30 @@ async function downloadPack(
     const sticker = stickerList[i];
     const staticUrl = stickerURL(sticker.id);
     await downloadImage(staticUrl, packDir, `${sticker.id}.png`);
-    const isValid = await checkImageValidity(path.join(packDir, `${sticker.id}.png`));
+    const isValid = await processImage(path.join(packDir, `${sticker.id}.png`));
     if (!isValid) {
       await downloadImage(fallbackStickerURL(sticker.id), packDir, `${sticker.id}.png`);
+      await processImage(path.join(packDir, `${sticker.id}.png`));
     }
 
     if (sticker.type === 'animation' || sticker.type === 'popup') {
       let downloadURL =
         sticker.type === 'animation' ? animatedStickerURL(sticker.id) : popupStickerURL(sticker.id);
       await downloadImage(downloadURL, packDir, `${sticker.id}_${sticker.type}.png`);
-      const animValid = await checkImageValidity(
-        path.join(packDir, `${sticker.id}_${sticker.type}.png`)
+      const converted = await processImage(
+        path.join(packDir, `${sticker.id}_${sticker.type}.png`),
+        true
       );
-      if (!animValid) {
+      if (!converted) {
+        fs.rm(path.join(packDir, `${sticker.id}_${sticker.type}.gif`), (err) => console.log(err));
         downloadURL =
           sticker.type === 'animation'
             ? fallbackAnimatedStickerURL(sticker.id)
             : fallbackPopupStickerURL(sticker.id);
         await downloadImage(downloadURL, packDir, `${sticker.id}_${sticker.type}.png`);
+        await processImage(path.join(packDir, `${sticker.id}_${sticker.type}.png`), true);
       }
+      fs.rm(path.join(packDir, `${sticker.id}_${sticker.type}.png`), (err) => console.log(err));
     }
 
     console.log(`Downloaded ${i + 1}/${stickerList.length} stickers`);
@@ -164,13 +171,50 @@ async function downloadImage(url: string, dir: string, filename: string): Promis
   });
 }
 
-async function checkImageValidity(imagePath: string): Promise<boolean> {
+async function processImage(imagePath: string, animated = false): Promise<boolean> {
   try {
-    await Jimp.read(imagePath);
-    console.log('Image is valid.');
+    if (animated) {
+      const { image, width, height } = (await sharpFromApng(
+        imagePath,
+        {
+          transparent: true,
+        },
+        true
+      )) as unknown as { image: Sharp; width: number; height: number };
+      const size = Math.max(width.valueOf(), height.valueOf());
+      await image
+        .resize({
+          width: size,
+          height: size,
+          fit: 'contain',
+          background: { r: 0, g: 0, b: 0, alpha: 0 },
+        })
+        .gif()
+        .toFile(imagePath.replace('.png', '.gif'));
+    } else {
+      const image = sharp(
+        imagePath.endsWith('@2x.png') ? revert(fs.readFileSync(imagePath)) : imagePath
+      );
+      const { width, height } = await image.metadata();
+      const size = Math.max(width, height);
+      fs.writeFileSync(
+        imagePath,
+        await image
+          .resize({
+            width: size,
+            height: size,
+            fit: 'contain',
+            background: { r: 0, g: 0, b: 0, alpha: 0 },
+          })
+          .png()
+          .toBuffer()
+      );
+    }
+    console.log('Image processed successfully.');
     return true;
-  } catch (_error) {
-    console.log('Image is invalid.');
+  } catch (e) {
+    console.error(e);
+    console.log('Image could not be processed.');
     return false;
   }
 }

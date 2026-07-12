@@ -9,8 +9,8 @@ const stickerRenderer = new StickerRenderer();
 window.addEventListener('DOMContentLoaded', async () => {
   setUpAddStickerModal(stickerRenderer);
   setUpMenuBarButtons();
-  setUpThemeSelect();
-  stickerRenderer.populateStickerPacks();
-  setUpSettingsModal();
-  setUpUpdateModal();
+  await setUpThemeSelect();
+  await stickerRenderer.populateStickerPacks();
+  await setUpSettingsModal();
+  await setUpUpdateModal();
 });

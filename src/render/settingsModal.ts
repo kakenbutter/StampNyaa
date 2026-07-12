@@ -132,6 +132,5 @@ export async function setUpSettingsModal(): Promise<void> {
     }
   });
 
-  const version = await window.api.getVersion();
-  document.getElementById('versionString')!.textContent = version;
+  document.getElementById('versionString')!.textContent = await window.api.getVersion();
 }

@@ -9,9 +9,6 @@ module.exports = {
     extendInfo: {
       LSUIElement: true,
     },
-    osxUniversal: {
-      x64ArchFiles: '**/electron-clipboard-ex/**',
-    },
   },
   rebuildConfig: {
     ignoreModules: ['electron-clipboard-ex'],

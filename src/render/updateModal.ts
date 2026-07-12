@@ -1,4 +1,4 @@
-export function setUpUpdateModal(): void {
+export async function setUpUpdateModal(): Promise<void> {
   const updateModalBackground = document.getElementById('update-background') as HTMLElement;
   const updateText = document.getElementById('update-text')!;
 
@@ -15,6 +15,6 @@ export function setUpUpdateModal(): void {
     }
   }
 
-  checkUpdates();
+  await checkUpdates();
   setInterval(checkUpdates, 24 * 60 * 60 * 1000);
 }

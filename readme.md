@@ -1,6 +1,6 @@
 <h2 align="center">NOTE: this is not the original repo; the following README is a copy of the original</h2>
 <p align="center">
-  <img src="./assets/banner_transparent.png" alt="StampNyaa Banner" max-height="300" />
+  <img src="./assets/banner_transparent.png" alt="StampNyaa Banner" />
 </p>
 <h1 align="center">StampNyaa | スタンプにゃあ～</h1>
 <p align="center">
@@ -55,7 +55,7 @@ Keep in mind that sticker packs from LINE are created by skilled artists and are
 ### 🎞️ Showcase
 
 |             **Send Stickers on Discord**             |            **Choose a Theme**             |
-| :--------------------------------------------------: | :---------------------------------------: |
+|:----------------------------------------------------:|:-----------------------------------------:|
 | ![Discord Send Sticker](img/DiscordSendSticker.gif)  |  ![Choose A Theme](img/ChooseATheme.gif)  |
 |          **Choose Your Favorite Stickers**           |     **Manage and Sort Your Stickers**     |
 | ![Select Favorite Stickers](img/ChooseFavorites.gif) | ![Manage and Sort](img/ManageAndSort.gif) |

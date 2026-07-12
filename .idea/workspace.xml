@@ -4,10 +4,44 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c6c872f5-8e01-40b3-8ea8-f3c08b3f6797" name="Changes" comment="1.6.2">
-      <change beforePath="$PROJECT_DIR$/.github/workflows/build.yml" beforeDir="false" afterPath="$PROJECT_DIR$/.github/workflows/build.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.github/workflows/release.yml" beforeDir="false" afterPath="$PROJECT_DIR$/.github/workflows/release.yml" afterDir="false" />
+    <list default="true" id="c6c872f5-8e01-40b3-8ea8-f3c08b3f6797" name="Changes" comment="1.6.3">
+      <change afterPath="$PROJECT_DIR$/src/fontawesome/_animated.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/fontawesome/_bordered.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/fontawesome/_core.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/fontawesome/_fa.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/fontawesome/_functions.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/fontawesome/_icons.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/fontawesome/_list.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/fontawesome/_mixins.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/fontawesome/_pulled.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/fontawesome/_rotated-flipped.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/fontawesome/_sizing.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/fontawesome/_stacked.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/fontawesome/_variables.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/fontawesome/_widths.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/fontawesome/fontawesome.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/fontawesome/solid.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/prettier.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/prettier.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/index.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/forge.config.js" beforeDir="false" afterPath="$PROJECT_DIR$/forge.config.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/readme.md" beforeDir="false" afterPath="$PROJECT_DIR$/readme.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/index.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/index.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/index.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/preload.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/preload.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/render/addStickerModal.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/render/addStickerModal.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/render/settingsModal.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/render/settingsModal.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/render/stickerRenderer.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/render/stickerRenderer.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/render/updateModal.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/render/updateModal.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/renderer.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/renderer.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/types.d.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/types.d.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/utils/lineDownloader.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/lineDownloader.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/utils/sqlHandler.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/sqlHandler.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/utils/stickerHandler.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/stickerHandler.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/yarn.lock" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -15,7 +49,7 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="EmbeddingIndexingInfo">
-    <option name="cachedIndexableFilesCount" value="75" />
+    <option name="cachedIndexableFilesCount" value="92" />
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -27,74 +61,77 @@
     &quot;assignee&quot;: &quot;kakenbutter&quot;
   }
 }</component>
-  <component name="GithubPullRequestsUISettings"><![CDATA[{
-  "selectedUrlAndAccountId": {
-    "url": "https://github.com/kakenbutter/StampNyaa",
-    "accountId": "57407f64-0ee5-4679-af51-888e80b03f36"
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/kakenbutter/StampNyaa&quot;,
+    &quot;accountId&quot;: &quot;57407f64-0ee5-4679-af51-888e80b03f36&quot;
   }
-}]]></component>
+}</component>
   <component name="McpProjectServerCommands">
     <commands />
     <urls />
   </component>
   <component name="NextEditCompletionFeaturesState">
     <decayedCancelled>
-      <entry key="MS100" value="1.0000000000207228" />
-      <entry key="MS500" value="1.0072994738406962" />
-      <entry key="S2" value="1.3092095175221798" />
-      <entry key="S5" value="1.899062868134963" />
-      <entry key="S10" value="2.720717392165987" />
-      <entry key="S30" value="4.997904444241275" />
-      <entry key="S60" value="9.244973345730937" />
-      <entry key="M2" value="24.217345135872097" />
-      <entry key="M5" value="78.58525081176991" />
-      <entry key="M10" value="149.09746555770522" />
-      <entry key="M15" value="199.15296377959748" />
-      <entry key="M30" value="289.4378084394124" />
-      <entry key="H1" value="367.0009825113088" />
-      <entry key="H2" value="420.38718068864927" />
-      <entry key="H4" value="452.13843190799366" />
-      <entry key="D1" value="481.710098481023" />
-      <entry key="W1" value="487.0933876232763" />
+      <entry key="MS100" value="1.663007589826981" />
+      <entry key="MS500" value="4.807868070351173" />
+      <entry key="S2" value="8.789689729730132" />
+      <entry key="S5" value="17.002248407666087" />
+      <entry key="S10" value="26.74699976917022" />
+      <entry key="S30" value="39.390032009397544" />
+      <entry key="S60" value="43.92044379558974" />
+      <entry key="M2" value="47.36158739864692" />
+      <entry key="M5" value="57.970385942234316" />
+      <entry key="M10" value="82.60719725004375" />
+      <entry key="M15" value="107.70003019523595" />
+      <entry key="M30" value="171.6756243536979" />
+      <entry key="H1" value="264.1253739566299" />
+      <entry key="H2" value="392.28205899795574" />
+      <entry key="H4" value="584.6341681329541" />
+      <entry key="D1" value="1455.8009303081617" />
+      <entry key="W1" value="2009.2816131329976" />
     </decayedCancelled>
     <decayedSelected>
       <entry key="MS100" value="0.0" />
-      <entry key="MS500" value="0.0" />
-      <entry key="S2" value="4.395702576268147E-103" />
-      <entry key="S5" value="1.1408047472213549E-41" />
-      <entry key="S10" value="3.37758012076894E-21" />
-      <entry key="S30" value="1.5003821427503127E-7" />
-      <entry key="S60" value="3.8734779411133264E-4" />
-      <entry key="M2" value="0.019700759854798053" />
-      <entry key="M5" value="0.23309533980288524" />
-      <entry key="M10" value="0.7313763247163971" />
-      <entry key="M15" value="1.20299839568355" />
-      <entry key="M30" value="2.1231596553591845" />
-      <entry key="H1" value="2.892379301394505" />
-      <entry key="H2" value="3.3953514230445765" />
-      <entry key="H4" value="3.683705957949145" />
-      <entry key="D1" value="3.945226695396718" />
-      <entry key="W1" value="3.992123244755668" />
+      <entry key="MS500" value="1.9179984821972016E-246" />
+      <entry key="S2" value="5.5233702020763024E-62" />
+      <entry key="S5" value="4.695789649519382E-25" />
+      <entry key="S10" value="9.668982615629078E-13" />
+      <entry key="S30" value="1.5688947228954643E-4" />
+      <entry key="S60" value="0.01775165095942964" />
+      <entry key="M2" value="0.20391479874193205" />
+      <entry key="M5" value="1.5432392257401937" />
+      <entry key="M10" value="4.862733940337567" />
+      <entry key="M15" value="8.040760436396956" />
+      <entry key="M30" value="14.927441232899234" />
+      <entry key="H1" value="23.45764104151558" />
+      <entry key="H2" value="36.93912984549069" />
+      <entry key="H4" value="60.668378625033945" />
+      <entry key="D1" value="154.10676346866498" />
+      <entry key="W1" value="201.77324214506785" />
     </decayedSelected>
     <decayedShown>
-      <entry key="MS100" value="0.9526379980634068" />
-      <entry key="MS500" value="0.9975518387564996" />
-      <entry key="S2" value="1.305837349731274" />
-      <entry key="S5" value="1.8970218301485646" />
-      <entry key="S10" value="2.718964509225817" />
-      <entry key="S30" value="4.995960796920559" />
-      <entry key="S60" value="9.243341740314037" />
-      <entry key="M2" value="24.2344610403668" />
-      <entry key="M5" value="78.81462792095144" />
-      <entry key="M10" value="149.82452102922568" />
-      <entry key="M15" value="200.35149749859204" />
-      <entry key="M30" value="291.5567263989914" />
-      <entry key="H1" value="369.8900563751334" />
-      <entry key="H2" value="423.7803890600587" />
-      <entry key="H4" value="455.82090557730214" />
-      <entry key="D1" value="485.6550932561002" />
-      <entry key="W1" value="491.08547702364325" />
+      <entry key="MS100" value="1.586573051917696" />
+      <entry key="MS500" value="4.759014822575622" />
+      <entry key="S2" value="8.768558004395764" />
+      <entry key="S5" value="16.98746872630977" />
+      <entry key="S10" value="26.735897567691683" />
+      <entry key="S30" value="39.38486640443323" />
+      <entry key="S60" value="43.934585365271815" />
+      <entry key="M2" value="47.5600459453617" />
+      <entry key="M5" value="59.50157767466319" />
+      <entry key="M10" value="87.4507841203737" />
+      <entry key="M15" value="115.71897165921861" />
+      <entry key="M30" value="186.58141976988114" />
+      <entry key="H1" value="287.56450958800957" />
+      <entry key="H2" value="429.20456099770763" />
+      <entry key="H4" value="645.2863360285545" />
+      <entry key="D1" value="1609.8994339669082" />
+      <entry key="W1" value="2211.053291013336" />
     </decayedShown>
+  </component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="CurrentFile" />
   </component>
   <component name="ProjectColorInfo">{
   &quot;customColor&quot;: &quot;&quot;,
@@ -105,32 +142,36 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.MCP Project settings loaded&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.typescript.service.memoryLimit.init&quot;: &quot;true&quot;,
-    &quot;codeWithMe.voiceChat.enabledByDefault&quot;: &quot;false&quot;,
-    &quot;com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
-    &quot;javascript.preferred.runtime.type.id&quot;: &quot;node&quot;,
-    &quot;junie.onboarding.icon.badge.shown&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;yarn&quot;,
-    &quot;prettierjs.PrettierConfiguration.Package&quot;: &quot;/Users/kake/Documents/projects/StampNyaa/node_modules/prettier&quot;,
-    &quot;to.speed.mode.migration.done&quot;: &quot;true&quot;,
-    &quot;ts.external.directory.path&quot;: &quot;/Users/kake/Documents/projects/StampNyaa/node_modules/typescript/lib&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "RunOnceActivity.MCP Project settings loaded": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "RunOnceActivity.typescript.service.memoryLimit.init": "true",
+    "codeWithMe.voiceChat.enabledByDefault": "false",
+    "com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1": "true",
+    "git-widget-placeholder": "master",
+    "javascript.preferred.runtime.type.id": "node",
+    "junie.onboarding.icon.badge.shown": "true",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "yarn",
+    "prettierjs.PrettierConfiguration.Package": "/Users/kake/Documents/projects/StampNyaa/node_modules/prettier",
+    "run.code.analysis.last.selected.profile": "pProject Default",
+    "settings.editor.selected.configurable": "actions.on.save",
+    "to.speed.mode.migration.done": "true",
+    "ts.external.directory.path": "/Users/kake/Documents/projects/StampNyaa/node_modules/typescript/lib",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/fa" />
+      <recent name="$PROJECT_DIR$/assets" />
       <recent name="$PROJECT_DIR$/dist" />
     </key>
   </component>
@@ -151,7 +192,11 @@
       <workItem from="1783467163171" duration="3029000" />
       <workItem from="1783470413948" duration="577000" />
       <workItem from="1783471159162" duration="457000" />
-      <workItem from="1783491426513" duration="402000" />
+      <workItem from="1783491426513" duration="1187000" />
+      <workItem from="1783529832767" duration="3572000" />
+      <workItem from="1783547227335" duration="2200000" />
+      <workItem from="1783750771269" duration="10917000" />
+      <workItem from="1783792306449" duration="27486000" />
     </task>
     <task id="LOCAL-00001" summary="adjust action workflows for macOS">
       <option name="closed" value="true" />
@@ -201,7 +246,15 @@
       <option name="project" value="LOCAL" />
       <updated>1783490886006</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="1.6.2">
+      <option name="closed" value="true" />
+      <created>1783491852302</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1783491852302</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

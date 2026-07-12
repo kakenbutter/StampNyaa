@@ -23,6 +23,7 @@ interface Api {
   setFavorites: (favorites: { PackID: string; StickerID: string }[]) => void;
   getFavorites: () => Promise<{ PackID: string; StickerID: string; position: number }[]>;
   getMostUsed: () => Promise<{ PackID: string; StickerID: string; count: number }[]>;
+  clearMostUsed: () => Promise<void>;
 }
 
 interface StickerSettings {

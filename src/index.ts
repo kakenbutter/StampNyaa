@@ -39,7 +39,7 @@ if (squirrelStartup) {
   app.quit();
 }
 
-const createWindow = () => {
+const createWindow = async () => {
   window = new BrowserWindow({
     icon: path.join(__dirname, '../assets/icon.ico'),
     width: 930,
@@ -54,7 +54,7 @@ const createWindow = () => {
     skipTaskbar: true,
   });
 
-  window.loadFile(path.join(__dirname, '../src/index.html'));
+  await window.loadFile(path.join(__dirname, '../src/index.html'));
 
   window.webContents.setWindowOpenHandler(({ url }: { url: string }) => {
     shell.openExternal(url);
@@ -76,7 +76,7 @@ const createWindow = () => {
 app.setActivationPolicy('accessory');
 
 app.on('ready', async () => {
-  createWindow();
+  await createWindow();
 
   app.on('will-quit', () => {
     globalShortcut.unregisterAll();
@@ -177,26 +177,32 @@ ipcMain.handle('ready', () => {
   };
 });
 
-ipcMain.on('send-sticker', (event: Electron.IpcMainEvent, stickerPath: string, settings: any) => {
-  settings.resizeWidth = config.get('resizeWidth');
-  stickerHandler.pasteStickerFromPath(stickerPath, window, settings);
-  sqlHandler.useSticker({ PackID: settings.stickerPackID, StickerID: settings.stickerID });
-});
+ipcMain.handle(
+  'send-sticker',
+  async (_event: Electron.IpcMainEvent, stickerPath: string, settings: any) => {
+    settings.resizeWidth = config.get('resizeWidth');
+    await stickerHandler.pasteStickerFromPath(stickerPath, window, settings);
+    await sqlHandler.useSticker({ PackID: settings.stickerPackID, StickerID: settings.stickerID });
+  }
+);
 
-ipcMain.on('download-sticker-pack', (event: Electron.IpcMainEvent, url: string) => {
+ipcMain.on('download-sticker-pack', async (event: Electron.IpcMainEvent, url: string) => {
   const port = event.ports[0] as unknown as MessagePort;
-  downloadPack(url, port, store.get('stickersPath') as string);
+  await downloadPack(url, port, store.get('stickersPath') as string);
 });
 
-ipcMain.on('set-sticker-pack-order', (event: Electron.IpcMainEvent, stickerPackOrder: string[]) => {
-  config.set('stickerPacksOrder', stickerPackOrder);
-});
+ipcMain.on(
+  'set-sticker-pack-order',
+  (_event: Electron.IpcMainEvent, stickerPackOrder: string[]) => {
+    config.set('stickerPacksOrder', stickerPackOrder);
+  }
+);
 
 ipcMain.handle('get-theme', () => {
   return config.get('theme');
 });
 
-ipcMain.on('set-theme', (event: Electron.IpcMainEvent, theme: string) => {
+ipcMain.on('set-theme', (_event: Electron.IpcMainEvent, theme: string) => {
   config.set('theme', theme);
 });
 
@@ -204,7 +210,7 @@ ipcMain.handle('get-hotkey', () => {
   return config.get('hotkey');
 });
 
-ipcMain.on('set-hotkey', (event: Electron.IpcMainEvent, hotkey: string) => {
+ipcMain.on('set-hotkey', (_event: Electron.IpcMainEvent, hotkey: string) => {
   config.set('hotkey', hotkey);
 });
 
@@ -223,7 +229,6 @@ function setRunOnStartup(runOnStartup: boolean): void {
 
   app.setLoginItemSettings({
     openAtLogin: runOnStartup,
-    openAsHidden: true,
     path: updateExe,
     args: ['--processStart', `"${exeName}"`, '--process-start-args', '"--hidden"'],
   });
@@ -233,7 +238,7 @@ ipcMain.handle('get-run-on-startup', () => {
   return config.get('runOnStartup');
 });
 
-ipcMain.on('set-run-on-startup', (event: Electron.IpcMainEvent, runOnStartup: boolean) => {
+ipcMain.on('set-run-on-startup', (_event: Electron.IpcMainEvent, runOnStartup: boolean) => {
   setRunOnStartup(runOnStartup);
   config.set('runOnStartup', runOnStartup);
 });
@@ -242,7 +247,7 @@ ipcMain.handle('get-resize-width', () => {
   return config.get('resizeWidth');
 });
 
-ipcMain.on('set-resize-width', (event: Electron.IpcMainEvent, width: number) => {
+ipcMain.on('set-resize-width', (_event: Electron.IpcMainEvent, width: number) => {
   config.set('resizeWidth', width);
 });
 
@@ -254,8 +259,8 @@ ipcMain.handle('get-version', () => {
   return app.getVersion();
 });
 
-ipcMain.on('set-favorites', (event: Electron.IpcMainEvent, favorites: unknown) => {
-  sqlHandler.setFavorites(favorites as { PackID: string; StickerID: string }[]);
+ipcMain.on('set-favorites', async (_event: Electron.IpcMainEvent, favorites: unknown) => {
+  await sqlHandler.setFavorites(favorites as { PackID: string; StickerID: string }[]);
 });
 
 ipcMain.handle('get-favorites', () => {
@@ -264,4 +269,8 @@ ipcMain.handle('get-favorites', () => {
 
 ipcMain.handle('get-most-used', () => {
   return sqlHandler.getMostUsed(15);
+});
+
+ipcMain.handle('clear-most-used', () => {
+  return sqlHandler.clearMostUsed();
 });

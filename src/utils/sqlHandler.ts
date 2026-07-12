@@ -120,6 +120,17 @@ const sqlHandler = {
     });
   },
 
+  clearMostUsed(): Promise<void> {
+    return new Promise((resolve, reject) => {
+      this.db.all(`DELETE FROM stickerUses`, (err: Error | null) => {
+        if (err) {
+          reject(err);
+        }
+        resolve();
+      });
+    });
+  },
+
   useSticker(sticker: { PackID: string; StickerID: string }): Promise<void> {
     return new Promise((resolve, reject) => {
       this.db.run(

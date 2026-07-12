@@ -4,7 +4,7 @@ contextBridge.exposeInMainWorld('api', {
   closeWindow: () => ipcRenderer.send('close-window'),
   ready: () => ipcRenderer.invoke('ready'),
   sendSticker: async (stickerPath: string, settings: unknown) =>
-    ipcRenderer.send('send-sticker', stickerPath, settings),
+    ipcRenderer.invoke('send-sticker', stickerPath, settings),
   downloadStickerPack: (url: string) => {
     const { port1, port2 } = new MessageChannel();
     ipcRenderer.postMessage('download-sticker-pack', url, [port2]);
@@ -29,4 +29,5 @@ contextBridge.exposeInMainWorld('api', {
   setFavorites: (favorites: unknown) => ipcRenderer.send('set-favorites', favorites),
   getFavorites: () => ipcRenderer.invoke('get-favorites'),
   getMostUsed: () => ipcRenderer.invoke('get-most-used'),
+  clearMostUsed: () => ipcRenderer.invoke('clear-most-used'),
 });

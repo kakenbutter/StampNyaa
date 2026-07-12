@@ -1,4 +1,6 @@
-export function setUpAddStickerModal(stickerRenderer: { refreshStickerPacks: () => void }): void {
+import { StickerRenderer } from './stickerRenderer';
+
+export function setUpAddStickerModal(stickerRenderer: StickerRenderer): void {
   const addButton = document.getElementById('add-button')!;
   const addStickerModalBackground = document.getElementById(
     'add-sticker-background'
@@ -26,7 +28,7 @@ export function setUpAddStickerModal(stickerRenderer: { refreshStickerPacks: () 
   addStickerModalBackground.addEventListener('click', async (e) => {
     if (e.target === addStickerModalBackground && !downloadActive) {
       addStickerModalBackground.style.display = 'none';
-      stickerRenderer.refreshStickerPacks();
+      await stickerRenderer.refreshStickerPacks();
     }
   });
 
@@ -44,7 +46,6 @@ export function setUpAddStickerModal(stickerRenderer: { refreshStickerPacks: () 
 
     downloadActive = true;
     addStickerButton.classList.add('loading');
-    addStickerButton.firstElementChild!.textContent = 'more_horiz';
   });
 
   const addStickerDownloadFeedback = document.getElementById(
@@ -58,7 +59,6 @@ export function setUpAddStickerModal(stickerRenderer: { refreshStickerPacks: () 
     function finishDownload(button: HTMLElement): void {
       downloadActive = false;
       button.classList.remove('loading');
-      button.firstElementChild!.textContent = 'check';
     }
 
     const data = event.data;

@@ -1,5 +1,9 @@
-import { Sortable } from '@shopify/draggable';
-import type { SortableSortedEvent, SortableStopEvent } from '@shopify/draggable';
+import {
+  Sortable,
+  type SortableSortedEvent,
+  type SortableStopEvent,
+  type DragStartEvent,
+} from '@shopify/draggable';
 
 interface StickerPackConfig {
   title: string;
@@ -38,27 +42,28 @@ export class StickerRenderer {
 
     const favorites = await window.api.getFavorites();
     const favoritesDiv = this.makeAndSetUpStickerPack('favorites', {
-      title: '<span class="material-symbols-outlined">star</span> Favorites',
-      author: '',
+      title: '<i class="fa-solid fa-star"></i> Favorites',
       stickers: favorites.map(({ PackID, StickerID }) => {
         const stickerPack = this.stickerPacksMap[PackID];
         const sticker = stickerPack.stickers.find((s) => s.stickerID === StickerID);
         return sticker!;
       }),
-      storeURL: 'https://store.line.me/stickershop/',
       noIcon: true,
     });
     if (favoritesDiv) {
       this.stickerContainer.appendChild(favoritesDiv);
       this.setUpDraggableFavorites(favoritesDiv);
     }
+    await this.updateFavoritesEmpty();
 
     const icons = ['most-used', 'favorites'];
     for (const icon of icons) {
-      const iconDiv = document.getElementById(`${icon}-icon`)!;
-      iconDiv.addEventListener('click', () => {
+      const iconDiv = document.getElementById(`${icon}-icon`);
+      iconDiv?.addEventListener('click', () => {
         const stickerPackDiv = document.getElementById(`sticker-pack-container-${icon}`);
-        stickerPackDiv!.scrollIntoView({ behavior: 'instant' });
+        if (icon === 'most-used') this.stickerContainer.scrollTop = 0;
+        else stickerPackDiv!.scrollIntoView({ behavior: 'instant' });
+        document.querySelectorAll('.active').forEach((el) => el.classList.remove('active'));
       });
     }
 
@@ -108,6 +113,11 @@ export class StickerRenderer {
       draggable: '.sticker-pack-icon-wrapper',
     });
 
+    sortable.on('drag:start', (event: DragStartEvent) => {
+      const original = event.originalEvent as MouseEvent | PointerEvent;
+      if (!original.shiftKey) event.cancel();
+    });
+
     sortable.on('sortable:start', () => {
       this.sorting = true;
     });
@@ -150,6 +160,10 @@ export class StickerRenderer {
       draggable: '.sticker',
     });
 
+    sortable.on('drag:start', (event: DragStartEvent) => {
+      const original = event.originalEvent as MouseEvent | PointerEvent;
+      if (!original.shiftKey) event.cancel();
+    });
     sortable.on('sortable:sorted', () => {});
     sortable.on('sortable:stop', () => {
       setTimeout(() => {
@@ -184,69 +198,87 @@ export class StickerRenderer {
         stickerIconDiv.appendChild(stickerIconImg);
         this.stickerPackListDiv.appendChild(stickerIconDiv);
 
-        stickerIconDiv.addEventListener('mouseover', (e) => {
+        stickerIconDiv.addEventListener('click', (e) => {
           const stickerPackDiv = document.getElementById(`sticker-pack-container-${stickerPackID}`);
           stickerPackDiv!.scrollIntoView({ behavior: 'instant' });
           document.querySelectorAll('.active').forEach((el) => el.classList.remove('active'));
-          if (!this.sorting) {
-            (e.currentTarget as HTMLElement).classList.add('active');
-          }
+          (e.currentTarget as HTMLElement).classList.add('active');
         });
       }
     }
 
-    if (!document.getElementById(`sticker-pack-container-${stickerPackID}`)) {
-      const stickerPackDiv = document.createElement('div');
+    let stickerPackDiv = document.getElementById(
+      `sticker-pack-container-${stickerPackID}`
+    ) as HTMLDivElement;
+    if (!stickerPackDiv) {
+      stickerPackDiv = document.createElement('div');
       stickerPackDiv.classList.add('sticker-pack');
       stickerPackDiv.dataset.packID = stickerPackID;
       stickerPackDiv.id = `sticker-pack-container-${stickerPackID}`;
-
-      const stickerPackHeader = createElementFromHTML(`
+    } else stickerPackDiv.innerHTML = '';
+    const stickerPackHeader = createElementFromHTML(`
 <div class="sticker-pack-header">
-<a class="sticker-pack-title" href="${storeURL}" target="_blank">${title}</a>
-<a class="sticker-pack-author" href="${authorURL}" target="_blank">${author}</a>
+<a class="sticker-pack-title" ${storeURL ? `href="${storeURL}"` : ''} target="_blank">${title}</a>
+${author ? `<a class="sticker-pack-author" ${authorURL ? `href="${authorURL}"` : ''} target="_blank">${author}</a>` : ''}
 </div>
 `) as HTMLElement;
-      stickerPackDiv.appendChild(stickerPackHeader);
-
-      for (const sticker of stickers) {
-        stickerPackDiv.appendChild(this.createSticker(sticker));
-      }
-
-      return stickerPackDiv;
-    }
+    stickerPackDiv.appendChild(stickerPackHeader);
+    for (const sticker of stickers) stickerPackDiv.appendChild(this.createSticker(sticker));
+    return stickerPackDiv;
   }
 
-  updateMostUsed(): void {
+  updateMostUsed(scrollToView = false): void {
     let mostUsedDiv = document.getElementById('sticker-pack-container-most-used');
     if (!mostUsedDiv) {
       mostUsedDiv = document.createElement('div');
       mostUsedDiv.classList.add('sticker-pack');
       mostUsedDiv.id = 'sticker-pack-container-most-used';
-      this.stickerContainer.appendChild(mostUsedDiv);
+      try {
+        this.stickerContainer.insertBefore(
+          mostUsedDiv,
+          document.getElementById('sticker-pack-container-favorites')!
+        );
+      } catch {
+        this.stickerContainer.appendChild(mostUsedDiv);
+      }
     }
-    mostUsedDiv.innerHTML = '';
 
-    window.api.getMostUsed().then((mostUsed) => {
-      this.stickerContainer.removeChild(
-        document.getElementById('sticker-pack-container-most-used')!
+    window.api
+      .getMostUsed()
+      .then(async (mostUsed) => {
+        const mostUsedDiv = this.makeAndSetUpStickerPack('most-used', {
+          title: '<i class="fa-solid fa-clock-rotate-left"></i> Most Used',
+          stickers: mostUsed.map(({ PackID, StickerID }) => {
+            const stickerPack = this.stickerPacksMap[PackID];
+            const sticker = stickerPack.stickers.find((s) => s.stickerID === StickerID);
+            return sticker!;
+          }),
+          noIcon: true,
+        });
+        const headerDiv = mostUsedDiv.querySelector('.sticker-pack-header');
+        if (headerDiv) {
+          headerDiv.appendChild(createElementFromHTML(`<a class="most-used-clear">clear</a>`));
+          headerDiv
+            .querySelector('.most-used-clear')
+            .addEventListener('click', () =>
+              window.api.clearMostUsed().then(() => this.updateMostUsed(true))
+            );
+        }
+        if (scrollToView) this.stickerContainer.scrollTop = 0; // mostUsedDiv.scrollIntoView({ behavior: 'instant' });
+      })
+      .finally(async () => await this.updateMostUsedEmpty());
+  }
+
+  async updateMostUsedEmpty(): Promise<void> {
+    const mostUsedDiv = document.getElementById('sticker-pack-container-most-used');
+    if (mostUsedDiv.getElementsByClassName('sticker').length === 0)
+      mostUsedDiv.appendChild(
+        createElementFromHTML(
+          `<span class="section-empty">Nothing here yet...</span>`
+        ) as HTMLElement
       );
-      const mostUsedDiv = this.makeAndSetUpStickerPack('most-used', {
-        title: '<span class="material-symbols-outlined">history</span> Most Used',
-        author: '',
-        stickers: mostUsed.map(({ PackID, StickerID }) => {
-          const stickerPack = this.stickerPacksMap[PackID];
-          const sticker = stickerPack.stickers.find((s) => s.stickerID === StickerID);
-          return sticker!;
-        }),
-        storeURL: 'https://store.line.me/stickershop/',
-        noIcon: true,
-      });
-      this.stickerContainer.insertBefore(
-        mostUsedDiv!,
-        document.getElementById('sticker-pack-container-favorites')!
-      );
-    });
+    else if (mostUsedDiv.querySelector('.section-empty'))
+      mostUsedDiv.querySelector('.section-empty').remove();
   }
 
   createSticker(sticker: StickerData): HTMLDivElement {
@@ -356,10 +388,23 @@ export class StickerRenderer {
         StickerID: stickerDiv.dataset.stickerID!,
       }))
     );
+    this.updateFavoritesEmpty().then();
   }
 
-  refreshStickerPacks(): void {
-    this.populateStickerPacks();
+  async updateFavoritesEmpty(): Promise<void> {
+    const favoritesDiv = document.getElementById('sticker-pack-container-favorites');
+    if (favoritesDiv.getElementsByClassName('sticker').length === 0)
+      favoritesDiv.appendChild(
+        createElementFromHTML(
+          `<span class="section-empty">Right-click a sticker to favorite it!</span>`
+        ) as HTMLElement
+      );
+    else if (favoritesDiv.querySelector('.section-empty'))
+      favoritesDiv.querySelector('.section-empty').remove();
+  }
+
+  async refreshStickerPacks(): Promise<void> {
+    await this.populateStickerPacks();
   }
 }
 
