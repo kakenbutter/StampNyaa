@@ -9,6 +9,20 @@ module.exports = {
     extendInfo: {
       LSUIElement: true,
     },
+    ignore: (path) => {
+      const match = path.match(/node_modules\/@nut-tree-fork\/libnut-(\S+)/);
+      if (match) {
+        const platform = match[1];
+        const current =
+          process.platform === 'win32'
+            ? 'win32'
+            : process.platform === 'darwin'
+              ? 'macos'
+              : 'linux-x64';
+        return !platform.startsWith(current.replace('darwin', 'macos'));
+      }
+      return false;
+    },
   },
   rebuildConfig: {
     ignoreModules: ['electron-clipboard-ex'],
@@ -38,7 +52,6 @@ module.exports = {
       config: {},
     },
   ],
-
   publishers: [
     {
       name: '@electron-forge/publisher-github',
