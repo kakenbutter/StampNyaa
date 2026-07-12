@@ -3,7 +3,7 @@ const path = require('path');
 
 module.exports = {
   packagerConfig: {
-    asar: true,
+    asar: false,
     executableName: 'stampnyaa',
     icon: './assets/icon',
     extendInfo: {
@@ -35,12 +35,6 @@ module.exports = {
     },
     {
       name: '@electron-forge/maker-rpm',
-      config: {},
-    },
-  ],
-  plugins: [
-    {
-      name: '@electron-forge/plugin-auto-unpack-natives',
       config: {},
     },
   ],
