@@ -92,5 +92,11 @@ typings/
 out/
 
 # Build outputs
-dist/*.js
-dist/renderer/
+dist
+
+# Husky
+.husky/
+
+# Editors
+.vscode/
+.idea/
