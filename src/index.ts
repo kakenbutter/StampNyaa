@@ -61,10 +61,7 @@ const createWindow = async () => {
     return { action: 'deny' as const };
   });
 
-  if (process.env.NODE_ENV === 'development') {
-    window.webContents.openDevTools();
-    window.setSize(1600, 900);
-  }
+  window.setVisibleOnAllWorkspaces(true, { visibleOnFullScreen: true });
 
   app.on('browser-window-blur', () => {
     setTimeout(() => {

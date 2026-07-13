@@ -1,7 +1,7 @@
 {
   "name": "stampnyaa",
   "productName": "StampNyaa",
-  "version": "1.7.0-patch4",
+  "version": "1.7.0-patch5",
   "description": "A simple app for using LINE stickers in your favorite messaging applications.",
   "repository": {
     "type": "git",
@@ -29,6 +29,7 @@
   },
   "license": "GPL-3.0",
   "dependencies": {
+    "@janhapke/sharp-electron": "0.35.3-electron.1",
     "@nut-tree-fork/nut-js": "^4.2.6",
     "@shopify/draggable": "^1.2.1",
     "axios": "^1.18.1",
@@ -36,7 +37,6 @@
     "electron-squirrel-startup": "^1.0.1",
     "electron-store": "^11.0.2",
     "jsdom": "^29.1.1",
-    "sharp": "^0.35.3",
     "sharp-apng": "^0.1.5",
     "sqlite3": "^6.0.1",
     "update-electron-app": "^3.3.0"
@@ -69,5 +69,8 @@
   },
   "lint-staged": {
     "*.{js,ts}": "prettier --write"
+  },
+  "resolutions": {
+    "sharp-apng/sharp": "npm:@janhapke/sharp-electron@0.35.3-electron.1"
   }
 }

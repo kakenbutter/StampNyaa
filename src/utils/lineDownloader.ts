@@ -4,7 +4,7 @@ import * as fs from 'fs';
 import { finished } from 'node:stream/promises';
 import * as path from 'path';
 import { sharpFromApng } from 'sharp-apng';
-import sharp, { type Sharp } from 'sharp';
+import sharp from '@janhapke/sharp-electron';
 import { revert } from 'cgbi-to-png';
 
 const cdnURL = 'https://stickershop.line-scdn.net';
@@ -180,7 +180,7 @@ async function processImage(imagePath: string, animated = false): Promise<boolea
           transparent: true,
         },
         true
-      )) as unknown as { image: Sharp; width: number; height: number };
+      )) as unknown as { image: sharp.Sharp; width: number; height: number };
       const size = Math.max(width.valueOf(), height.valueOf());
       await image
         .resize({
@@ -192,8 +192,13 @@ async function processImage(imagePath: string, animated = false): Promise<boolea
         .gif()
         .toFile(imagePath.replace('.png', '.gif'));
     } else {
+      const buffer = fs.readFileSync(imagePath);
       const image = sharp(
-        imagePath.endsWith('@2x.png') ? revert(fs.readFileSync(imagePath)) : imagePath
+        buffer.length >= 24 &&
+          buffer.subarray(0, 8).equals(Buffer.from([137, 80, 78, 71, 13, 10, 26, 10])) &&
+          buffer.subarray(12, 16).toString('ascii') === 'CgBI'
+          ? revert(buffer)
+          : imagePath
       );
       const { width, height } = await image.metadata();
       const size = Math.max(width, height);

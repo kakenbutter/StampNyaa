@@ -2,7 +2,7 @@ import { app, clipboard } from 'electron';
 import * as fs from 'fs';
 import * as path from 'path';
 import { Key, keyboard } from '@nut-tree-fork/nut-js';
-import sharp from 'sharp';
+import sharp from '@janhapke/sharp-electron';
 
 let clipboardEx: typeof import('electron-clipboard-ex') | undefined;
 
