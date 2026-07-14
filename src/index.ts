@@ -84,7 +84,7 @@ app.on('ready', async () => {
     {
       label: 'Show',
       click: function () {
-        createWindow();
+        toggleWindow();
       },
     },
     {
@@ -120,24 +120,28 @@ if ((store as any).has('stickerPacksOrder')) {
 }
 
 function toggleWindow(): void {
-  if (window.isFocused()) {
-    window.hide();
-  } else {
-    const currentScreen = screen.getDisplayNearestPoint(screen.getCursorScreenPoint());
-    const isWindowOnCurrentScreen =
-      currentScreen.bounds.x <= window.getPosition()[0] &&
-      window.getPosition()[0] <= currentScreen.bounds.x + currentScreen.bounds.width &&
-      currentScreen.bounds.y <= window.getPosition()[1] &&
-      window.getPosition()[1] <= currentScreen.bounds.y + currentScreen.bounds.height;
-    if (!isWindowOnCurrentScreen) {
-      const windowSize = window.getSize();
-      let moveToX = currentScreen.bounds.x + currentScreen.bounds.width / 2 - windowSize[0] / 2;
-      let moveToY = currentScreen.bounds.y + currentScreen.bounds.height / 2 - windowSize[1] / 2;
-      moveToX = Math.floor(moveToX);
-      moveToY = Math.floor(moveToY);
-      window.setPosition(moveToX, moveToY);
+  try {
+    if (window.isFocused()) {
+      window.hide();
+    } else {
+      const currentScreen = screen.getDisplayNearestPoint(screen.getCursorScreenPoint());
+      const isWindowOnCurrentScreen =
+        currentScreen.bounds.x <= window.getPosition()[0] &&
+        window.getPosition()[0] <= currentScreen.bounds.x + currentScreen.bounds.width &&
+        currentScreen.bounds.y <= window.getPosition()[1] &&
+        window.getPosition()[1] <= currentScreen.bounds.y + currentScreen.bounds.height;
+      if (!isWindowOnCurrentScreen) {
+        const windowSize = window.getSize();
+        let moveToX = currentScreen.bounds.x + currentScreen.bounds.width / 2 - windowSize[0] / 2;
+        let moveToY = currentScreen.bounds.y + currentScreen.bounds.height / 2 - windowSize[1] / 2;
+        moveToX = Math.floor(moveToX);
+        moveToY = Math.floor(moveToY);
+        window.setPosition(moveToX, moveToY);
+      }
+      window.show();
     }
-    window.show();
+  } catch {
+    createWindow();
   }
 }
 
